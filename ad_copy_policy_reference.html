@@ -1,0 +1,618 @@
+
+<h2 class="sr-only">Ad copy policy reference guide for Google Ads and Microsoft Advertising (Bing Ads)</h2>
+
+<style>
+  .ref-wrap { font-family: var(--font-sans); max-width: 900px; }
+  .platform-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+  .tab-btn { padding: 8px 20px; border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); color: var(--color-text-secondary); border-radius: var(--border-radius-md); cursor: pointer; font-size: 13px; font-weight: 500; }
+  .tab-btn.active { background: var(--color-background-secondary); color: var(--color-text-primary); border-color: var(--color-border-primary); }
+  .platform-panel { display: none; }
+  .platform-panel.active { display: block; }
+  .section-block { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); margin-bottom: 12px; overflow: hidden; }
+  .section-header { display: flex; align-items: center; gap: 10px; padding: 12px 16px; cursor: pointer; background: var(--color-background-secondary); user-select: none; }
+  .section-header:hover { background: var(--color-background-tertiary); }
+  .section-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); flex: 1; }
+  .section-badge { font-size: 11px; padding: 3px 8px; border-radius: var(--border-radius-md); }
+  .badge-must { background: #FCEBEB; color: #A32D2D; }
+  .badge-warn { background: #FAEEDA; color: #854F0B; }
+  .badge-info { background: #E6F1FB; color: #185FA5; }
+  .badge-ok { background: #EAF3DE; color: #3B6D11; }
+  .chevron { font-size: 11px; color: var(--color-text-tertiary); transition: transform 0.2s; }
+  .chevron.open { transform: rotate(90deg); }
+  .section-body { padding: 0 16px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.2s; }
+  .section-body.open { max-height: 2000px; padding: 12px 16px; }
+  .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .spec-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 14px; }
+  .spec-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .spec-value { font-size: 22px; font-weight: 500; color: var(--color-text-primary); line-height: 1.1; }
+  .spec-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+  .rule-list { list-style: none; margin: 0; padding: 0; }
+  .rule-list li { font-size: 13px; color: var(--color-text-primary); padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary); display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
+  .rule-list li:last-child { border-bottom: none; }
+  .rule-icon { flex-shrink: 0; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; margin-top: 2px; }
+  .icon-ban { background: #FCEBEB; color: #A32D2D; }
+  .icon-ok { background: #EAF3DE; color: #3B6D11; }
+  .icon-warn { background: #FAEEDA; color: #854F0B; }
+  .rule-text strong { font-weight: 500; }
+  .rule-text .eg { font-size: 12px; color: var(--color-text-secondary); display: block; margin-top: 2px; font-family: var(--font-mono); }
+  .compare-row { display: grid; grid-template-columns: 180px 1fr 1fr; gap: 0; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; margin-bottom: 8px; }
+  .compare-cell { padding: 10px 14px; font-size: 13px; border-right: 0.5px solid var(--color-border-tertiary); }
+  .compare-cell:last-child { border-right: none; }
+  .compare-cell.header { background: var(--color-background-secondary); font-weight: 500; font-size: 12px; color: var(--color-text-secondary); }
+  .compare-cell.label { background: var(--color-background-secondary); font-weight: 500; color: var(--color-text-primary); display: flex; align-items: center; }
+  .same-tag { font-size: 11px; padding: 2px 6px; background: #EAF3DE; color: #3B6D11; border-radius: 4px; margin-left: 6px; }
+  .diff-tag { font-size: 11px; padding: 2px 6px; background: #FAEEDA; color: #854F0B; border-radius: 4px; margin-left: 6px; }
+  .affiliate-tip { background: var(--color-background-info); border: 0.5px solid var(--color-border-tertiary); border-left: 3px solid #378ADD; border-radius: var(--border-radius-md); padding: 10px 14px; margin-top: 8px; }
+  .affiliate-tip .tip-label { font-size: 11px; font-weight: 500; color: #185FA5; margin-bottom: 4px; }
+  .affiliate-tip p { font-size: 13px; color: var(--color-text-primary); margin: 0; line-height: 1.5; }
+  .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .sum-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; }
+  .sum-card .sc-label { font-size: 11px; color: var(--color-text-secondary); }
+  .sum-card .sc-value { font-size: 16px; font-weight: 500; margin-top: 2px; }
+  .quick-ref-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .quick-ref-table th { padding: 8px 12px; text-align: left; font-weight: 500; font-size: 12px; color: var(--color-text-secondary); border-bottom: 0.5px solid var(--color-border-secondary); }
+  .quick-ref-table td { padding: 8px 12px; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-primary); vertical-align: top; }
+  .quick-ref-table tr:last-child td { border-bottom: none; }
+  .status-ok { color: #3B6D11; font-weight: 500; }
+  .status-ban { color: #A32D2D; font-weight: 500; }
+  .status-cond { color: #854F0B; font-weight: 500; }
+  .mono { font-family: var(--font-mono); font-size: 12px; background: var(--color-background-secondary); padding: 1px 5px; border-radius: 4px; }
+</style>
+
+<div class="ref-wrap">
+
+<div class="platform-tabs">
+  <button class="tab-btn active" onclick="switchTab('compare')">So sánh 2 platform</button>
+  <button class="tab-btn" onclick="switchTab('google')">Google Ads</button>
+  <button class="tab-btn" onclick="switchTab('bing')">Microsoft Ads (Bing)</button>
+  <button class="tab-btn" onclick="switchTab('affiliate')">Affiliate-specific rules</button>
+</div>
+
+<div id="tab-compare" class="platform-panel active">
+  <div class="compare-row">
+    <div class="compare-cell header label">Quy chuẩn</div>
+    <div class="compare-cell header">Google Ads</div>
+    <div class="compare-cell header">Microsoft Ads (Bing)</div>
+  </div>
+
+  <div class="compare-row">
+    <div class="compare-cell label">Headlines tối đa <span class="same-tag">giống nhau</span></div>
+    <div class="compare-cell">15 headlines</div>
+    <div class="compare-cell">15 headlines</div>
+  </div>
+  <div class="compare-row">
+    <div class="compare-cell label">Ký tự/headline <span class="same-tag">giống nhau</span></div>
+    <div class="compare-cell"><span class="mono">30 chars</span> (bao gồm spaces)</div>
+    <div class="compare-cell"><span class="mono">30 chars</span> (bao gồm spaces)</div>
+  </div>
+  <div class="compare-row">
+    <div class="compare-cell label">Descriptions <span class="same-tag">giống nhau</span></div>
+    <div class="compare-cell">4 descriptions tối đa</div>
+    <div class="compare-cell">4 descriptions tối đa</div>
+  </div>
+  <div class="compare-row">
+    <div class="compare-cell label">Ký tự/description <span class="same-tag">giống nhau</span></div>
+    <div class="compare-cell"><span class="mono">90 chars</span></div>
+    <div class="compare-cell"><span class="mono">90 chars</span></div>
+  </div>
+  <div class="compare-row">
+    <div class="compare-cell label">Display path <span class="same-tag">giống nhau</span></div>
+    <div class="compare-cell">2 path fields × 15 chars</div>
+    <div class="compare-cell">2 path fields × 15 chars</div>
+  </div>
+  <div class="compare-row">
+    <div class="compare-cell label">Số từ tối thiểu <span class="diff-tag">khác nhau</span></div>
+    <div class="compare-cell">Không quy định tối thiểu</div>
+    <div class="compare-cell">Tối thiểu 3 words/headline và description</div>
+  </div>
+  <div class="compare-row">
+    <div class="compare-cell label">Exclamation mark <span class="diff-tag">khác nhau</span></div>
+    <div class="compare-cell">Không dùng trong headline; 1 cái trong description</div>
+    <div class="compare-cell">Dùng rất hạn chế; không lặp lại (!!)</div>
+  </div>
+  <div class="compare-row">
+    <div class="compare-cell label">ALL CAPS <span class="same-tag">giống nhau</span></div>
+    <div class="compare-cell">Cấm, trừ acronym & trademark</div>
+    <div class="compare-cell">Cấm, trừ acronym & trademark</div>
+  </div>
+  <div class="compare-row">
+    <div class="compare-cell label">Số điện thoại <span class="same-tag">giống nhau</span></div>
+    <div class="compare-cell">Cấm trong ad text (dùng call extension)</div>
+    <div class="compare-cell">Cấm trong ad text (dùng call extension)</div>
+  </div>
+  <div class="compare-row">
+    <div class="compare-cell label">Emoji <span class="same-tag">giống nhau</span></div>
+    <div class="compare-cell">Cấm hoàn toàn trong search ads</div>
+    <div class="compare-cell">Cấm hoàn toàn</div>
+  </div>
+  <div class="compare-row">
+    <div class="compare-cell label">Non-specific CTA <span class="diff-tag">khác nhau</span></div>
+    <div class="compare-cell">Không có quy định riêng</div>
+    <div class="compare-cell">"Click here" bị cấm cụ thể</div>
+  </div>
+  <div class="compare-row">
+    <div class="compare-cell label">Affiliate claim <span class="diff-tag">khác nhau</span></div>
+    <div class="compare-cell">Không được claim là "official brand"</div>
+    <div class="compare-cell">Cấm rõ ràng claim "Official Site"</div>
+  </div>
+  <div class="compare-row">
+    <div class="compare-cell label">Landing page match <span class="same-tag">giống nhau</span></div>
+    <div class="compare-cell">Ad phải match LP content chính xác</div>
+    <div class="compare-cell">Ad phải match LP content chính xác</div>
+  </div>
+</div>
+
+<div id="tab-google" class="platform-panel">
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">1. Character limits — RSA format</span>
+      <span class="section-badge badge-must">Bắt buộc</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <div class="spec-grid">
+        <div class="spec-card">
+          <div class="spec-label">Headlines</div>
+          <div class="spec-value">30</div>
+          <div class="spec-sub">chars mỗi headline · tối đa 15 headlines · tối thiểu 3</div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-label">Descriptions</div>
+          <div class="spec-value">90</div>
+          <div class="spec-sub">chars mỗi description · tối đa 4 · tối thiểu 2</div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-label">Display path</div>
+          <div class="spec-value">15</div>
+          <div class="spec-sub">chars mỗi path field · tối đa 2 path fields</div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-label">RSA per ad group</div>
+          <div class="spec-value">3</div>
+          <div class="spec-sub">RSAs tối đa mỗi ad group</div>
+        </div>
+      </div>
+      <ul class="rule-list">
+        <li><span class="rule-icon icon-warn">!</span><span class="rule-text">Spaces và punctuation đều tính vào character count</span></li>
+        <li><span class="rule-icon icon-warn">!</span><span class="rule-text">Double-byte languages (Japanese, Chinese, Korean) = 2 chars mỗi ký tự</span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text">Google hiển thị tối đa 3 headlines và 2 descriptions mỗi lần — viết để từng headline có nghĩa độc lập</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">2. Capitalization — quy tắc viết hoa</span>
+      <span class="section-badge badge-must">Bắt buộc</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm ALL CAPS</strong> cho từ thường — không được viết hoa toàn bộ từ
+          <span class="eg">Sai: "BEST ORGANIC SOIL ONLINE" → Đúng: "Best Organic Soil Online"</span>
+        </span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm intercapitalization</strong> — không viết xen kẽ
+          <span class="eg">Sai: "BuIlDaSoIl CouPoN" hoặc "f-R-e-E"</span>
+        </span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Được phép: </strong>Viết hoa chữ đầu mỗi từ (Title Case) — chuẩn phổ biến nhất
+          <span class="eg">"BuildASoil Coupon Code 2025"</span>
+        </span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Được phép: </strong>Acronym hợp lệ — USA, DNA, FAQ, SEO, LP
+          <span class="eg">"FAQ: BuildASoil USA Shipping"</span>
+        </span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Được phép: </strong>Trademark/brand name với capitalization riêng đã đăng ký
+          <span class="eg">BuildASoil, GoAffPro, UpPromote — viết đúng theo brand</span>
+        </span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Được phép: </strong>Coupon code viết hoa toàn bộ
+          <span class="eg">Dùng code <span class="mono">SAVE20</span> khi checkout</span>
+        </span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">3. Punctuation & symbols — dấu câu và ký hiệu</span>
+      <span class="section-badge badge-must">Bắt buộc</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm exclamation mark trong headline</strong>
+          <span class="eg">Sai: "BuildASoil Coupon Here!" trong H1, H2, H3</span>
+        </span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Exclamation mark được dùng 1 lần trong description</strong> — không lặp lại
+          <span class="eg">"Discover the best organic soil deals — save up to 20%!"</span>
+        </span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm lặp dấu câu</strong>
+          <span class="eg">Sai: "Save Now!!!" / "Best Deal???" / "Get... Your... Coupon..."</span>
+        </span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm ký hiệu trang trí và emoji</strong>
+          <span class="eg">Sai: ♥ ★ ☞ → ✓ và tất cả emoji</span>
+        </span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Được dùng: </strong>dấu câu chuẩn
+          <span class="eg">. , ? - / ( ) : ; & + $ % ™ ®</span>
+        </span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Được dùng: </strong>số và ký hiệu phổ biến
+          <span class="eg">"Save 20%" / "Up to $50 Off" / "24/7 Support"</span>
+        </span></li>
+        <li><span class="rule-icon icon-warn">!</span><span class="rule-text"><strong>Trademark symbol (™, ®) </strong>yêu cầu submit review nếu không phải brand của bạn</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">4. Spelling, grammar & style</span>
+      <span class="section-badge badge-must">Bắt buộc</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm lỗi chính tả cố ý</strong>
+          <span class="eg">Sai: "Fr33 OfF3r" / "B3st Deal" / "Gr8 Price"</span>
+        </span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm leet speak và text speak</strong>
+          <span class="eg">Sai: "U" thay "You" / "4" thay "for" / "Gr8" thay "Great"</span>
+        </span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm khoảng trắng thừa</strong>
+          <span class="eg">Sai: "BuildASoil  Coupon" (2 spaces) / " Save Now" (space đầu)</span>
+        </span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm ngôn ngữ sensational / clickbait</strong>
+          <span class="eg">Sai: "You WILL NEVER BELIEVE this deal" / "SHOCKING secret revealed"</span>
+        </span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm vague generic phrases</strong>
+          <span class="eg">Sai: "Buy products here" / "Click to visit website"</span>
+        </span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Viết professional, clear, relevant</strong> — ngữ pháp chuẩn, không slang</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">5. Repetition — quy tắc không lặp lại</span>
+      <span class="section-badge badge-must">Bắt buộc</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm lặp từ/cụm từ trong cùng 1 headline</strong>
+          <span class="eg">Sai: "Free free shipping free coupon"</span>
+        </span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm lặp giữa các headlines quá giống nhau</strong>
+          <span class="eg">Sai: "BuildASoil Coupon" + "BuildASoil Coupon Code" + "BuildASoil Coupons" — quá similar, Ad Strength drop</span>
+        </span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Brand name xuất hiện nhiều lần là OK</strong> — nhưng nên đặt ở H1 pinned, còn lại vary</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">6. Display URL & destination rules</span>
+      <span class="section-badge badge-must">Bắt buộc</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Display URL phải match domain thực</strong>
+          <span class="eg">Sai: Display URL = productinsight.store/official nhưng link đến foxfarm.com</span>
+        </span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Path fields cho phép thêm context</strong>
+          <span class="eg">productinsight.store/BuildASoil/Coupon</span>
+        </span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm ghi số điện thoại trong ad text</strong> — dùng Call Extension thay thế</span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>LP phải functional và accessible</strong> — không redirect loop, không broken links</span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>LP content phải match ad promise</strong> — ad nói "20% off" thì LP phải hiển thị 20% off</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">7. Business name requirements</span>
+      <span class="section-badge badge-warn">Quan trọng</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Business name không được chứa promotional language</strong>
+          <span class="eg">Sai: "Best Deals Online – Free Shipping" / "Official BuildASoil Store"</span>
+        </span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Business name = tên thực của site/brand</strong>
+          <span class="eg">Đúng: "ProductInsight" hoặc "ProductInsight.store"</span>
+        </span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">8. Ad Strength — hướng dẫn tối ưu</span>
+      <span class="section-badge badge-info">Khuyến nghị</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text">Cung cấp tối thiểu 8–10 headlines, lý tưởng là đủ 15</span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text">Include keyword trong ít nhất 2–3 headlines để trigger bold matching</span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text">Headlines phải có nghĩa độc lập — Google có thể chỉ show 1 headline</span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text">Aim for "Good" hoặc "Excellent" Ad Strength — "Poor" làm giảm impressions</span></li>
+        <li><span class="rule-icon icon-warn">!</span><span class="rule-text">Pin quá nhiều headlines làm giảm Ad Strength và impressions đáng kể</span></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div id="tab-bing" class="platform-panel">
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">1. Character limits — RSA format</span>
+      <span class="section-badge badge-must">Bắt buộc</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <div class="spec-grid">
+        <div class="spec-card">
+          <div class="spec-label">Headlines</div>
+          <div class="spec-value">30</div>
+          <div class="spec-sub">chars mỗi headline · 3–15 headlines</div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-label">Descriptions</div>
+          <div class="spec-value">90</div>
+          <div class="spec-sub">chars mỗi description · 2–4 descriptions</div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-label">Display path</div>
+          <div class="spec-value">15</div>
+          <div class="spec-sub">chars mỗi path · tối đa 2 paths</div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-label">Tối thiểu từ</div>
+          <div class="spec-value">3</div>
+          <div class="spec-sub">words trong headline và description — rule riêng của Bing</div>
+        </div>
+      </div>
+      <div class="affiliate-tip">
+        <div class="tip-label">Bing-specific rule</div>
+        <p>Microsoft Bing yêu cầu tối thiểu 3 words trong ad title và description — Google không có quy định này. Headline 1 word như "BuildASoil" sẽ bị reject trên Bing.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">2. Capitalization — quy tắc viết hoa</span>
+      <span class="section-badge badge-must">Bắt buộc</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm excessive capitalization</strong> — tương tự Google
+          <span class="eg">Sai: "SAVE BIG ON ORGANIC SOIL TODAY"</span>
+        </span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Title Case được chấp nhận</strong> — viết hoa chữ đầu mỗi từ</span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Acronym và brand name</strong> được giữ nguyên capitalization</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">3. Punctuation & symbols</span>
+      <span class="section-badge badge-must">Bắt buộc</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm repeated punctuation</strong>
+          <span class="eg">Sai: "!!!" / "???" / "..." overuse</span>
+        </span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm emoji</strong> — Bing reject trong editorial review</span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text">Standard punctuation được dùng theo ngữ pháp bình thường</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">4. CTA & language rules — khác biệt so với Google</span>
+      <span class="section-badge badge-warn">Bing-specific</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm "Click Here"</strong> và non-specific CTAs — Bing có rule riêng này, Google không có
+          <span class="eg">Sai: "Click here for more info" → Đúng: "Reveal Your Coupon Now"</span>
+        </span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm claim "Official Site"</strong> — affiliate không thể dùng cụm này
+          <span class="eg">Sai: "BuildASoil Official Coupon Site" → Đúng: "BuildASoil Coupon & Review"</span>
+        </span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm profanity, hate speech, offensive language</strong></span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm misleading claims</strong> — phải accurate và substantiated</span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Dùng specific, actionable CTAs</strong>
+          <span class="eg">"Reveal Discount" / "Get Your Code" / "See Price" / "Read Review"</span>
+        </span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">5. Landing page requirements</span>
+      <span class="section-badge badge-must">Bắt buộc</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>LP phải provide value-added content</strong> — không phải bridge page đơn thuần</span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm pop-ups và pop-unders</strong> trên landing page</span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Cấm cloaking</strong> — không hiển thị URL khác nhau theo IP/device</span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>LP phải match ad offer</strong> — nếu ad nói có coupon, LP phải có coupon</span></li>
+        <li><span class="rule-icon icon-ban">✕</span><span class="rule-text"><strong>Product link phải dẫn đến purchase page</strong> — không dẫn đến trang trung gian khác</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">6. Audience Network — rủi ro đặc thù của Bing</span>
+      <span class="section-badge badge-warn">Cần chú ý</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li><span class="rule-icon icon-warn">!</span><span class="rule-text"><strong>Audience Network tự động bật</strong> khi tạo Search campaign — search ads xuất hiện trên non-search placements</span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Tắt Audience Network</strong> bằng cách dùng exclusion lists và site-level exclusions</span></li>
+        <li><span class="rule-icon icon-ok">✓</span><span class="rule-text"><strong>Tắt Search Partners</strong> ngay khi setup — chứa nhiều low-quality và fake traffic sources</span></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div id="tab-affiliate" class="platform-panel">
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">Quy chuẩn ad copy toàn diện cho affiliate coupon model</span>
+      <span class="section-badge badge-info">Quick reference</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <table class="quick-ref-table">
+        <thead>
+          <tr>
+            <th>Yếu tố ad copy</th>
+            <th>Trạng thái</th>
+            <th>Ghi chú thực tế</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Brand name trong headline</td>
+            <td class="status-ok">OK</td>
+            <td>Được phép — không cần permission trừ khi brand cấm PPC</td>
+          </tr>
+          <tr>
+            <td>Claim "Official Site"</td>
+            <td class="status-ban">CẤM</td>
+            <td>Cả Google & Bing — bạn không phải brand owner</td>
+          </tr>
+          <tr>
+            <td>Claim "Authorized Dealer"</td>
+            <td class="status-ok">OK</td>
+            <td>Chấp nhận nếu LP có đủ commercial information</td>
+          </tr>
+          <tr>
+            <td>"Coupon" / "Promo Code" trong headline</td>
+            <td class="status-ok">OK</td>
+            <td>Hoàn toàn hợp lệ — đây là transactional keyword</td>
+          </tr>
+          <tr>
+            <td>"Save X%" trong headline</td>
+            <td class="status-ok">OK</td>
+            <td>Phải có deal thực trên LP — không được exaggerate</td>
+          </tr>
+          <tr>
+            <td>"Verified Coupon" / "Working Code"</td>
+            <td class="status-cond">Có điều kiện</td>
+            <td>Phải thực sự verified — nếu code hết hạn = misleading claim</td>
+          </tr>
+          <tr>
+            <td>Fake countdown / fake scarcity</td>
+            <td class="status-ban">CẤM</td>
+            <td>"Offer expires in 10:00" reset mỗi lần load = policy violation</td>
+          </tr>
+          <tr>
+            <td>Fake testimonials trong ad</td>
+            <td class="status-ban">CẤM</td>
+            <td>Unsubstantiated claims = account suspension risk</td>
+          </tr>
+          <tr>
+            <td>Exclamation mark trong headline</td>
+            <td class="status-ban">CẤM</td>
+            <td>Google cấm. Bing cấm lặp. Tránh hoàn toàn trong H1–H3</td>
+          </tr>
+          <tr>
+            <td>Price ("$XX off") trong ad</td>
+            <td class="status-ok">OK</td>
+            <td>Phải match LP — nếu giá thay đổi cần update ad</td>
+          </tr>
+          <tr>
+            <td>Số điện thoại trong ad text</td>
+            <td class="status-ban">CẤM</td>
+            <td>Dùng Call Extension thay thế</td>
+          </tr>
+          <tr>
+            <td>Affiliate disclosure trong ad</td>
+            <td class="status-cond">Cần thiết</td>
+            <td>Không cần trong ad text, nhưng bắt buộc có rõ ràng trên LP</td>
+          </tr>
+          <tr>
+            <td>"Click here" CTA</td>
+            <td class="status-ban">CẤM trên Bing</td>
+            <td>Google không cấm cụ thể nhưng cũng discourage — dùng specific CTA</td>
+          </tr>
+          <tr>
+            <td>Competitor brand so sánh</td>
+            <td class="status-cond">Thận trọng</td>
+            <td>Được phép nhưng phải accurate — "BuildASoil vs Fox Farm" OK nếu LP có comparison thực</td>
+          </tr>
+          <tr>
+            <td>Emoji trong ad text</td>
+            <td class="status-ban">CẤM</td>
+            <td>Cả Google & Bing — auto reject</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-title">Ví dụ ad copy compliant cho coupon model</span>
+      <span class="section-badge badge-ok">Template</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="section-body">
+      <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 14px; margin-bottom: 10px;">
+        <div style="font-size: 11px; color: var(--color-text-secondary); margin-bottom: 6px;">Ad Group 1 — Coupon Intent (Compliant)</div>
+        <div style="font-size: 13px; color: #185FA5; font-weight: 500;">BuildASoil Coupon Code 2025</div>
+        <div style="font-size: 13px; color: #185FA5;">Save Up to 20% Off Today · Reveal Discount Code</div>
+        <div style="font-size: 12px; color: var(--color-text-secondary);">productinsight.store/BuildASoil/Coupon</div>
+        <div style="font-size: 13px; color: var(--color-text-primary); margin-top: 4px;">Find verified BuildASoil coupon codes updated daily. Reveal your exclusive discount and save on organic soil products. No signup required.</div>
+      </div>
+      <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 14px;">
+        <div style="font-size: 11px; color: var(--color-text-secondary); margin-bottom: 6px;">Ad Group 2 — Product Intent (Compliant)</div>
+        <div style="font-size: 13px; color: #185FA5; font-weight: 500;">BuildASoil Potting Soil Review</div>
+        <div style="font-size: 13px; color: #185FA5;">Honest Review by Real Growers · See Test Results</div>
+        <div style="font-size: 12px; color: var(--color-text-secondary);">productinsight.store/BuildASoil/Review</div>
+        <div style="font-size: 13px; color: var(--color-text-primary); margin-top: 4px;">We tested BuildASoil Potting Soil 3.0 vs competitors. Read our full breakdown with grow results before you buy. Includes current best price and coupon.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.platform-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+function toggleSection(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.chevron');
+  body.classList.toggle('open');
+  chevron.classList.toggle('open');
+}
+</script>
