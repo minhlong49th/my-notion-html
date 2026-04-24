@@ -1,0 +1,2460 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research Flow — AffiliateOS</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090b;
+      --surface: #111113;
+      --surface2: #18181b;
+      --surface3: #1f1f23;
+      --border: #27272a;
+      --border2: #3f3f46;
+      --text: #fafafa;
+      --text2: #a1a1aa;
+      --text3: #52525b;
+      --green: #4ade80;
+      --green-dim: rgba(74, 222, 128, 0.07);
+      --green-border: rgba(74, 222, 128, 0.2);
+      --amber: #fbbf24;
+      --amber-dim: rgba(251, 191, 36, 0.07);
+      --amber-border: rgba(251, 191, 36, 0.25);
+      --red: #f87171;
+      --red-dim: rgba(248, 113, 113, 0.07);
+      --red-border: rgba(248, 113, 113, 0.2);
+      --blue: #60a5fa;
+      --blue-dim: rgba(96, 165, 250, 0.07);
+      --mono: 'Geist Mono', monospace;
+      --sans: 'Geist', sans-serif;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 40px 16px 100px;
+    }
+
+    .wrap {
+      max-width: 660px;
+      margin: 0 auto;
+    }
+
+    /* ── Header ── */
+    .hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hdr-left {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .hdr-logo {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .hdr-slug {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text3);
+    }
+
+    .hdr-badge {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 8px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Config notice ── */
+    .notice {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--blue);
+      background: var(--blue-dim);
+      border: 1px solid rgba(96, 165, 250, 0.15);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+
+    .notice code {
+      background: rgba(96, 165, 250, 0.12);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 10px;
+    }
+
+    /* ── Step nav ── */
+    .stepnav {
+      display: flex;
+      margin-bottom: 40px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .step {
+      flex: 1;
+      padding: 11px 14px;
+      border-right: 1px solid var(--border);
+      transition: background 0.15s;
+      cursor: default;
+    }
+
+    .step:last-child {
+      border-right: none;
+    }
+
+    .step.done {
+      cursor: pointer;
+    }
+
+    .step.done:hover {
+      background: var(--surface2);
+    }
+
+    .step.active {
+      background: var(--green-dim);
+    }
+
+    .step.active+.step {
+      border-left-color: var(--green-border);
+    }
+
+    .step-ltr {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .step.active .step-ltr {
+      color: var(--green);
+    }
+
+    .step.done .step-ltr {
+      color: var(--green);
+      opacity: 0.4;
+    }
+
+    .step-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+    }
+
+    .step.active .step-name {
+      color: var(--text);
+    }
+
+    /* ── Section ── */
+    .sec {
+      display: none;
+      animation: up 0.18s ease;
+    }
+
+    .sec.on {
+      display: block;
+    }
+
+    @keyframes up {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .sec-hdr {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .sec-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--green);
+      background: var(--green-dim);
+      border: 1px solid var(--green-border);
+      padding: 3px 9px;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .sec-title {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .sec-desc {
+      font-size: 12px;
+      color: var(--text3);
+      margin-top: 1px;
+    }
+
+    /* ── Fields ── */
+    .fg {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .fr2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .fr3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .f {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .lbl {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text2);
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .req {
+      color: var(--green);
+      font-size: 10px;
+    }
+
+    .opt {
+      color: var(--text3);
+      font-size: 10px;
+      font-family: var(--sans);
+      font-style: italic;
+      letter-spacing: 0;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: var(--text3);
+    }
+
+    input,
+    select,
+    textarea {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 13px;
+      padding: 9px 12px;
+      width: 100%;
+      transition: border-color 0.12s, background 0.12s;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--border2);
+      background: var(--surface3);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: var(--text3);
+    }
+
+    select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2352525b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 11px center;
+      padding-right: 30px;
+    }
+
+    select.loading {
+      color: var(--text3);
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    select.load-error {
+      border-color: var(--red-border);
+      color: var(--red);
+      pointer-events: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 76px;
+      line-height: 1.5;
+    }
+
+    input.err,
+    select.err {
+      border-color: var(--red);
+    }
+
+    .ferr {
+      font-size: 11px;
+      color: var(--red);
+      font-family: var(--mono);
+      display: none;
+    }
+
+    .ferr.on {
+      display: block;
+    }
+
+    /* ── Dropdown load error banner ── */
+    .dd-error {
+      display: none;
+      background: var(--red-dim);
+      border: 1px solid var(--red-border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .dd-error.on {
+      display: flex;
+    }
+
+    .dd-error-icon {
+      color: var(--red);
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .dd-error-body {
+      flex: 1;
+    }
+
+    .dd-error-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--red);
+      margin-bottom: 4px;
+      letter-spacing: 0.04em;
+    }
+
+    .dd-error-msg {
+      font-size: 12px;
+      color: var(--red);
+      opacity: 0.85;
+      line-height: 1.5;
+    }
+
+    .btn-retry {
+      font-family: var(--mono);
+      font-size: 11px;
+      margin-top: 8px;
+      padding: 5px 12px;
+      border-radius: 5px;
+      border: 1px solid var(--red-border);
+      background: transparent;
+      color: var(--red);
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+
+    .btn-retry:hover {
+      background: var(--red-dim);
+    }
+
+    /* ── Divider ── */
+    .div {
+      height: 1px;
+      background: var(--border);
+      margin: 4px 0;
+    }
+
+    /* ── Gate Preview Panel ── */
+    .gate-panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .gate-panel-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 14px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .gate-panel-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .gate-panel-note {
+      font-size: 10px;
+      color: var(--text3);
+      font-style: italic;
+    }
+
+    .gate-rows {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gate-row {
+      display: grid;
+      grid-template-columns: 16px 1fr auto auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    .gate-row:last-child {
+      border-bottom: none;
+    }
+
+    .gate-row.pass {
+      background: rgba(74, 222, 128, 0.04);
+    }
+
+    .gate-row.best {
+      background: rgba(74, 222, 128, 0.08);
+    }
+
+    .gate-row.fail {
+      background: rgba(248, 113, 113, 0.04);
+    }
+
+    .gate-row.empty {
+      background: transparent;
+    }
+
+    .gate-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--border2);
+      transition: background 0.2s;
+    }
+
+    .gate-row.pass .gate-dot {
+      background: var(--green);
+    }
+
+    .gate-row.best .gate-dot {
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+    }
+
+    .gate-row.fail .gate-dot {
+      background: var(--red);
+    }
+
+    .gate-label {
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    .gate-label span {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      margin-left: 6px;
+    }
+
+    .gate-value {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text3);
+      text-align: right;
+      min-width: 70px;
+    }
+
+    .gate-row.pass .gate-value {
+      color: var(--text2);
+    }
+
+    .gate-row.best .gate-value {
+      color: var(--green);
+    }
+
+    .gate-row.fail .gate-value {
+      color: var(--red);
+    }
+
+    .gate-badge {
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 3px;
+      min-width: 44px;
+      text-align: center;
+      border: 1px solid var(--border);
+      color: var(--text3);
+      transition: all 0.2s;
+    }
+
+    .gate-row.pass .gate-badge {
+      color: var(--green);
+      background: var(--green-dim);
+      border-color: var(--green-border);
+    }
+
+    .gate-row.best .gate-badge {
+      color: var(--green);
+      background: rgba(74, 222, 128, 0.12);
+      border-color: var(--green-border);
+    }
+
+    .gate-row.fail .gate-badge {
+      color: var(--red);
+      background: var(--red-dim);
+      border-color: var(--red-border);
+    }
+
+    /* Gate summary bar */
+    .gate-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 14px;
+      background: var(--surface2);
+      border-top: 1px solid var(--border);
+    }
+
+    .gate-score {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text3);
+    }
+
+    .gate-score strong {
+      color: var(--text2);
+    }
+
+    .gate-verdict {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      color: var(--text3);
+      transition: all 0.2s;
+    }
+
+    .gate-verdict.all-pass {
+      color: var(--green);
+      background: var(--green-dim);
+      border-color: var(--green-border);
+    }
+
+    .gate-verdict.partial {
+      color: var(--amber);
+      background: var(--amber-dim);
+      border-color: var(--amber-border);
+    }
+
+    .gate-verdict.all-fail {
+      color: var(--red);
+      background: var(--red-dim);
+      border-color: var(--red-border);
+    }
+
+    /* ── Competitor warning ── */
+    .cwarn {
+      display: none;
+      background: var(--amber-dim);
+      border: 1px solid var(--amber-border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .cwarn.on {
+      display: flex;
+    }
+
+    .cwarn-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--amber);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+
+    .cwarn-txt {
+      font-size: 12px;
+      color: var(--amber);
+      line-height: 1.5;
+    }
+
+    /* ── Competitor list ── */
+    .clist {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .ccard {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      animation: up 0.15s ease;
+      position: relative;
+    }
+
+    .ccard-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 2px;
+    }
+
+    .ccard-num {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      background: var(--surface3, var(--border));
+      border-radius: 4px;
+      padding: 2px 7px;
+      flex-shrink: 0;
+    }
+
+    .ccard-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .ccard-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .ccard-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .ccard-lbl {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .ccard input,
+    .ccard select {
+      font-size: 12px;
+      padding: 7px 10px;
+    }
+
+    .ccard select {
+      padding-right: 24px;
+    }
+
+    .cempty {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text3);
+      text-align: center;
+      padding: 18px;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+    }
+
+    /* ── Competitor search autocomplete ── */
+    .csearch-wrap {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .csearch-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0 12px;
+      transition: border-color 0.15s;
+    }
+
+    .csearch-wrap:focus-within .csearch-box {
+      border-color: var(--border2);
+    }
+
+    .csearch-icon {
+      font-size: 15px;
+      color: var(--text3);
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .csearch-box input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 12px;
+      color: var(--text);
+      padding: 9px 0;
+      outline: none;
+    }
+
+    .csearch-box input::placeholder {
+      color: var(--text3);
+    }
+
+    .csearch-clear {
+      font-size: 16px;
+      color: var(--text3);
+      cursor: pointer;
+      flex-shrink: 0;
+      line-height: 1;
+      display: none;
+      transition: color 0.12s;
+    }
+
+    .csearch-clear:hover {
+      color: var(--text);
+    }
+
+    .csearch-clear.visible {
+      display: block;
+    }
+
+    .csuggest {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      overflow: hidden;
+      z-index: 100;
+      display: none;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    .csuggest.open {
+      display: block;
+    }
+
+    .csug-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      cursor: pointer;
+      transition: background 0.1s;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .csug-item:last-child {
+      border-bottom: none;
+    }
+
+    .csug-item:hover,
+    .csug-item.active {
+      background: var(--surface3, rgba(255, 255, 255, 0.04));
+    }
+
+    .csug-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .csug-name {
+      font-size: 12px;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .csug-name mark {
+      background: transparent;
+      color: var(--blue, #60a5fa);
+      font-weight: 600;
+    }
+
+    .csug-meta {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .csug-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      border: 1px solid var(--border2);
+      color: var(--text3);
+      flex-shrink: 0;
+    }
+
+    .csug-tag.affiliate {
+      color: var(--blue);
+      border-color: rgba(96, 165, 250, 0.3);
+      background: var(--blue-dim);
+    }
+
+    .csug-tag.brand_direct {
+      color: var(--amber);
+      border-color: var(--amber-border);
+      background: var(--amber-dim);
+    }
+
+    .csug-add-btn {
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 4px 9px;
+      border-radius: 5px;
+      border: 1px solid var(--border2);
+      background: transparent;
+      color: var(--text3);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.12s;
+    }
+
+    .csug-add-btn:hover {
+      border-color: var(--green-border);
+      color: var(--green);
+      background: var(--green-dim);
+    }
+
+    .csug-add-btn.added {
+      color: var(--green);
+      border-color: var(--green-border);
+      background: var(--green-dim);
+      cursor: default;
+    }
+
+    .csug-status {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text3);
+      text-align: center;
+      padding: 14px;
+    }
+
+
+    .btn-rm {
+      width: 34px;
+      height: 34px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text3);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.12s;
+      flex-shrink: 0;
+    }
+
+    .btn-rm:hover {
+      border-color: var(--red-border);
+      color: var(--red);
+      background: var(--red-dim);
+    }
+
+    /* ── Is Recurring toggle ── */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+    }
+
+    .toggle-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+    }
+
+    .toggle-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .toggle-desc {
+      font-size: 11px;
+      color: var(--text3);
+    }
+
+    .toggle-btn {
+      position: relative;
+      width: 40px;
+      height: 22px;
+      border-radius: 11px;
+      border: none;
+      background: var(--border2);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s;
+      padding: 0;
+    }
+
+    .toggle-btn.on {
+      background: var(--green, #4ade80);
+    }
+
+    .toggle-knob {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      transition: transform 0.2s;
+      pointer-events: none;
+    }
+
+    .toggle-btn.on .toggle-knob {
+      transform: translateX(18px);
+    }
+
+    .btn-add {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 1px dashed var(--border2);
+      border-radius: var(--radius);
+      padding: 9px 14px;
+      color: var(--text2);
+      font-size: 12px;
+      font-family: var(--mono);
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.12s;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-add:hover {
+      border-color: var(--green-border);
+      color: var(--green);
+      background: var(--green-dim);
+    }
+
+    .btn-add-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    /* ── Nav ── */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 8px;
+      gap: 12px;
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 10px 22px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.12s;
+      background: transparent;
+      color: var(--text2);
+    }
+
+    .btn:hover {
+      border-color: var(--border2);
+      color: var(--text);
+    }
+
+    .btn-p {
+      background: var(--green);
+      color: #052e16;
+      border-color: var(--green);
+      font-weight: 600;
+    }
+
+    .btn-p:hover {
+      opacity: 0.88;
+    }
+
+    .btn-p:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .btn-ghost {
+      border-color: transparent;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--border);
+    }
+
+    /* ── Status ── */
+    .status {
+      display: none;
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.03em;
+    }
+
+    .status.on {
+      display: flex;
+    }
+
+    .status.loading {
+      color: var(--text2);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+    }
+
+    .status.ok {
+      color: var(--green);
+      background: var(--green-dim);
+      border: 1px solid var(--green-border);
+    }
+
+    .status.fail {
+      color: var(--red);
+      background: var(--red-dim);
+      border: 1px solid var(--red-border);
+    }
+
+    .spin {
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+      border: 1.5px solid var(--border2);
+      border-top-color: var(--text2);
+      border-radius: 50%;
+      animation: spin 0.55s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ── Success ── */
+    .done-screen {
+      display: none;
+      flex-direction: column;
+      gap: 24px;
+      padding: 36px 32px;
+      background: var(--surface);
+      border: 1px solid var(--green-border);
+      border-radius: 12px;
+      text-align: center;
+      animation: up 0.25s ease;
+    }
+
+    .done-screen.on {
+      display: flex;
+    }
+
+    .done-icon {
+      font-family: var(--mono);
+      font-size: 32px;
+      color: var(--green);
+    }
+
+    .done-title {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--green);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .done-sum {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      text-align: left;
+      background: var(--surface2);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+    }
+
+    .sum-row {
+      display: flex;
+      gap: 14px;
+      font-size: 12px;
+      align-items: baseline;
+    }
+
+    .sum-k {
+      font-family: var(--mono);
+      color: var(--text3);
+      min-width: 130px;
+      flex-shrink: 0;
+      font-size: 11px;
+    }
+
+    .sum-v {
+      color: var(--text);
+    }
+
+    .sum-v.g {
+      color: var(--green);
+    }
+
+    .sum-v.a {
+      color: var(--amber);
+    }
+
+    .sum-v.r {
+      color: var(--red);
+    }
+
+    .sum-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 4px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="hdr">
+      <div class="hdr-left">
+        <span class="hdr-logo">AffiliateOS</span>
+        <span class="hdr-slug">// research_flow</span>
+      </div>
+      <span class="hdr-badge">v5</span>
+    </div>
+
+    <div class="notice">
+      Điền config tại đầu script: <code>NOCODB_URL</code> <code>API_TOKEN</code> và các
+      <code>TABLE_ID_*</code> (Đã dùng API NocoDB v2)
+    </div>
+
+    <!-- Step nav -->
+    <div class="stepnav">
+      <div class="step active" data-s="1">
+        <div class="step-ltr">A</div>
+        <div class="step-name">Brand</div>
+      </div>
+      <div class="step" data-s="2">
+        <div class="step-ltr">B</div>
+        <div class="step-name">Offer</div>
+      </div>
+      <div class="step" data-s="3">
+        <div class="step-ltr">C</div>
+        <div class="step-name">Competitor</div>
+      </div>
+    </div>
+
+    <div id="fw">
+
+      <!-- ── SECTION A: Brand ── -->
+      <div class="sec on" id="s1">
+        <div class="sec-hdr">
+          <span class="sec-tag">A</span>
+          <div>
+            <div class="sec-title">Brand Info</div>
+            <div class="sec-desc">Thông tin cơ bản + demand signal</div>
+          </div>
+        </div>
+
+        <div class="fg">
+          <div class="fr2">
+            <div class="f">
+              <label class="lbl">Tên brand <span class="req">*</span></label>
+              <input type="text" id="brand_name" placeholder="VD: Lectric eBikes">
+              <span class="ferr" id="e-brand_name">Bắt buộc điền</span>
+            </div>
+            <div class="f">
+              <label class="lbl">Website <span class="req">*</span></label>
+              <input type="text" id="brand_website" placeholder="VD: lectricebikes.com">
+              <span class="ferr" id="e-brand_website">Bắt buộc điền</span>
+            </div>
+          </div>
+
+          <!-- Dropdown load error banner -->
+          <div class="dd-error" id="ddError">
+            <div class="dd-error-icon">⚠</div>
+            <div class="dd-error-body">
+              <div class="dd-error-title">Không load được dữ liệu từ NocoDB</div>
+              <div class="dd-error-msg" id="ddErrorMsg">Kiểm tra lại config URL / Token / Table ID và kết nối mạng.
+              </div>
+              <button class="btn-retry" onclick="retryDropdowns()">↺ Thử lại</button>
+            </div>
+          </div>
+
+          <div class="fr2">
+            <div class="f">
+              <label class="lbl">Niche <span class="req">*</span></label>
+              <select id="brand_niche" class="loading" onchange="onNicheChange()">
+                <option value="">Đang load...</option>
+              </select>
+              <span class="ferr" id="e-brand_niche">Bắt buộc chọn</span>
+            </div>
+            <div class="f">
+              <label class="lbl">Network <span class="req">*</span></label>
+              <select id="brand_network" class="loading">
+                <option value="">Đang load...</option>
+              </select>
+              <span class="ferr" id="e-brand_network">Bắt buộc chọn</span>
+            </div>
+          </div>
+
+          <div class="div"></div>
+
+          <div class="fr2">
+            <div class="f">
+              <label class="lbl">GKP keyword volume <span class="opt">optional</span></label>
+              <input type="number" id="kw_volume" placeholder="VD: 2400" min="0" oninput="updateGates()">
+              <span class="hint">[brand] coupon — monthly search (Google KP)</span>
+            </div>
+            <div class="f">
+              <label class="lbl">Traffic / tháng <span class="opt">optional</span></label>
+              <input type="number" id="traffic_monthly" placeholder="VD: 85000" min="0" oninput="updateGates()">
+              <span class="hint">SimilarWeb monthly visits</span>
+            </div>
+          </div>
+
+          <div class="f">
+            <label class="lbl">Ghi chú <span class="opt">optional</span></label>
+            <textarea id="brand_notes"
+              placeholder="Ấn tượng ban đầu, nguồn tìm thấy brand, điểm đặc biệt..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECTION B: Offer ── -->
+      <div class="sec" id="s2">
+        <div class="sec-hdr">
+          <span class="sec-tag">B</span>
+          <div>
+            <div class="sec-title">Offer Detail</div>
+            <div class="sec-desc">Data từ trang offer trên network</div>
+          </div>
+        </div>
+
+        <div class="fg">
+
+          <div class="fr2">
+            <div class="f">
+              <label class="lbl">Commission type <span class="req">*</span></label>
+              <select id="commission_type" class="loading" onchange="updateGates()">
+                <option value="">-- Đang tải... --</option>
+              </select>
+              <span class="ferr" id="e-commission_type">Bắt buộc chọn</span>
+            </div>
+            <div class="f">
+              <label class="lbl">Commission value <span class="req">*</span></label>
+              <input type="number" id="commission_value" placeholder="VD: 8" step="0.1" min="0" oninput="updateGates()">
+              <span class="ferr" id="e-commission_value">Bắt buộc điền</span>
+            </div>
+          </div>
+
+          <div class="f">
+            <label class="lbl">Affiliate Program URL <span class="opt">optional</span></label>
+            <input type="url" id="affiliate_program_url" placeholder="VD: https://shareasale.com/info/...">
+          </div>
+
+          <div class="fr3">
+            <div class="f">
+              <label class="lbl">AOV ước tính ($) <span class="opt">optional</span></label>
+              <input type="number" id="aov" placeholder="VD: 120" min="0" oninput="updateGates()">
+              <span class="hint">Cần khi type = %</span>
+            </div>
+            <div class="f">
+              <label class="lbl">Cookie days <span class="opt">optional</span></label>
+              <input type="number" id="cookie_days" placeholder="VD: 30" min="0">
+            </div>
+            <div class="f">
+              <label class="lbl">EPC network ($) <span class="opt">optional</span></label>
+              <input type="number" id="epc_network" placeholder="VD: 1.25" step="0.01" min="0">
+              <span class="hint">EPC do network công bố</span>
+            </div>
+          </div>
+
+          <!-- ── Gate Preview ── -->
+          <div class="gate-panel" id="gate_panel">
+            <div class="gate-panel-hdr">
+              <span class="gate-panel-title">Gate Preview</span>
+              <span class="gate-panel-note">tự động — DB sẽ tính bằng Formula</span>
+            </div>
+            <div class="gate-rows" id="gate_rows">
+              <!-- rendered by JS -->
+            </div>
+            <div class="gate-summary">
+              <span class="gate-score" id="gate_score">—</span>
+              <span class="gate-verdict" id="gate_verdict">pending</span>
+            </div>
+          </div>
+
+          <div class="div"></div>
+
+          <div class="fr3">
+            <div class="f">
+              <label class="lbl">Min payout ($) <span class="opt">optional</span></label>
+              <input type="number" id="min_payout" placeholder="VD: 50" min="0">
+            </div>
+            <div class="f">
+              <label class="lbl">Payment method <span class="opt">optional</span></label>
+              <select id="payment_method" class="loading">
+                <option value="">-- Đang tải... --</option>
+              </select>
+            </div>
+            <div class="f">
+              <label class="lbl">Payment schedule <span class="opt">optional</span></label>
+              <select id="payment_schedule" class="loading">
+                <option value="">-- Đang tải... --</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <span class="toggle-label">Is Recurring</span>
+              <span class="toggle-desc">Offer trả recurring commission (subscription / renewal)</span>
+            </div>
+            <button type="button" id="is_recurring_btn" class="toggle-btn on" onclick="toggleRecurring()">
+              <span class="toggle-knob"></span>
+            </button>
+            <input type="hidden" id="is_recurring" value="true">
+          </div>
+
+          <div class="f">
+            <label class="lbl">Ghi chú offer <span class="opt">optional</span></label>
+            <textarea id="offer_notes"
+              placeholder="Điều khoản đặc biệt, restricted categories, auto-approve hay manual..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECTION C: Competitor ── -->
+      <div class="sec" id="s3">
+        <div class="sec-hdr">
+          <span class="sec-tag">C</span>
+          <div>
+            <div class="sec-title">Competitor Check</div>
+            <div class="sec-desc">Tất cả optional — điền nếu đã check</div>
+          </div>
+        </div>
+
+        <div class="fg">
+          <div class="fr2">
+            <div class="f">
+              <label class="lbl">Tổng số competitor <span class="opt">optional</span></label>
+              <input type="number" id="competitor_count" placeholder="VD: 3" min="0" oninput="checkThresh(this.value)">
+              <span class="hint">Tổng đang chạy ads cho brand này</span>
+            </div>
+            <div class="f">
+              <label class="lbl">Nguồn data <span class="opt">optional</span></label>
+              <select id="check_source" class="loading">
+                <option value="">-- Đang tải... --</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cwarn" id="cwarn">
+            <div class="cwarn-dot"></div>
+            <div class="cwarn-txt">Có hơn 4 competitors đang chạy — thị trường cạnh tranh cao. Ghi nhận để đánh giá sau
+              khi đủ data.</div>
+          </div>
+
+          <div class="div"></div>
+
+          <div>
+            <div class="lbl" style="margin-bottom:10px">
+              Competitors đã identify
+              <span class="opt">optional — thêm nhiều tùy ý</span>
+            </div>
+
+            <!-- Search competitor từ DB -->
+            <div class="csearch-wrap">
+              <div class="csearch-box">
+                <span class="csearch-icon">⌕</span>
+                <input type="text" id="compSearchInput" placeholder="Tìm competitor trong DB (gõ tên hoặc domain)..."
+                  oninput="onCompSearch(this.value)" onkeydown="onCompSearchKey(event)" autocomplete="off">
+                <span class="csearch-clear" id="compSearchClear" onclick="clearCompSearch()">×</span>
+              </div>
+              <div class="csuggest" id="csuggest"></div>
+            </div>
+
+            <!-- List competitor session này -->
+            <div class="clist" id="clist"></div>
+            <button class="btn-add" onclick="addComp()">
+              <span class="btn-add-icon">+</span>
+              Thêm competitor mới
+            </button>
+          </div>
+        </div>
+
+        <div class="status" id="statusbar">
+          <div class="spin" id="spin"></div>
+          <span id="stxt">Đang lưu...</span>
+        </div>
+      </div>
+
+      <!-- Nav -->
+      <div class="nav" id="nav">
+        <button class="btn btn-ghost" id="bbk" onclick="prev()" style="display:none">← Back</button>
+        <div style="flex:1"></div>
+        <button class="btn btn-p" id="bnx" onclick="next()">Next →</button>
+      </div>
+
+    </div>
+
+    <!-- Done -->
+    <div class="done-screen" id="donescreen">
+      <div class="done-icon">✓</div>
+      <div class="done-title">Research saved</div>
+      <div class="done-sum" id="donesum"></div>
+      <button class="btn btn-p" onclick="reset()" style="align-self:center">+ Research brand mới</button>
+    </div>
+
+  </div>
+
+  <script>
+    // ══════════════════════════════════════════════
+    // CONFIG — thay các giá trị này trước khi dùng
+    // LƯU Ý: Nếu test từ máy khác cùng mạng LAN, 
+    // hãy đổi localhost thành địa chỉ IP mạng LAN của máy chủ (VD: 192.168.1.5)
+    // ══════════════════════════════════════════════
+    const C = {
+      URL: 'http://localhost:8080',
+      TOKEN: 'n_-WmBK3Q_nvaoiC-XRNYBhmIJF7hEQPBWjVw1w1',
+
+      T_BRANDS: 'm2vmp91y9uoeq3y',
+      T_OFFERS: 'mwpw7e480tvwzb2',
+      T_COMPETITORS: 'mw2fwkgxjs98rih',
+      T_CHECKS: 'mkkgcy7m3bfxt3s',
+      T_NETWORKS: 'mfb4mhkxju4ob5u',
+      T_BRANDS_META: 'm2vmp91y9uoeq3y',
+
+      COMP_THRESH: 4
+    };
+    // ══════════════════════════════════════════════
+
+    // ── Gate thresholds (theo logic đã xác nhận) ──
+    const GATE = {
+      commission_pass: 3,   // gate1: commission_est >= $3 = pass
+      commission_best: 8,   // gate1: commission_est >= $8 = best
+      kw_ecom: 100,  // gate2: ecom >= 100
+      kw_digital: 1000,  // gate2: digital >= 1,000
+      traffic_ecom: 1000,  // gate3: ecom >= 1,000
+      traffic_digital: 30000 // gate3: digital >= 30,000
+    };
+
+    // Niche groups
+    const isDigital = n => ['ecom-digital', 'saas', 'finance', 'health'].includes(n);
+    const isEcom = n => n === 'ecom';
+
+    let step = 1;
+    const STEPS = 3;
+    let comps = [];
+
+    // ── API ──────────────────────────────────────
+    // Đã thay đổi xc-auth thành xc-token cho API NocoDB v2
+    const hdrs = () => ({ 'xc-token': C.TOKEN, 'Content-Type': 'application/json' });
+    const base = () => `${C.URL}/api`;
+
+    async function GET(path) {
+      const r = await fetch(base() + path, { headers: hdrs() });
+      if (!r.ok) throw new Error(`GET ${path} → ${r.status}`);
+      return r.json();
+    }
+
+    // Đã cập nhật lên API v2 POST record (Không dùng PID)
+    async function POST(tid, body) {
+      const r = await fetch(`${base()}/v2/tables/${tid}/records`, {
+        method: 'POST', headers: hdrs(), body: JSON.stringify(body)
+      });
+      if (!r.ok) throw new Error(`POST ${tid} → ${r.status}: ${await r.text()}`);
+      return r.json();
+    }
+
+    // ── Load dropdowns ────────────────────────────
+    async function loadDropdowns() {
+      // Reset error banner
+      document.getElementById('ddError').classList.remove('on');
+      const results = await Promise.allSettled([loadNiche(), loadNetworks(), loadCommissionType(), loadPaymentSchedule(), loadPaymentMethod(), loadCheckSource(), loadCompType()]);
+      const errors = results
+        .filter(r => r.status === 'rejected')
+        .map(r => r.reason?.message || 'Unknown error');
+      if (errors.length > 0) {
+        showDdError(errors);
+      }
+    }
+
+    function showDdError(errors) {
+      const banner = document.getElementById('ddError');
+      const msg = document.getElementById('ddErrorMsg');
+      const detail = errors.join(' | ');
+      msg.textContent = `Lỗi: ${detail} — Kiểm tra lại Config (URL, Token, Table ID) và kết nối NocoDB.`;
+      banner.classList.add('on');
+    }
+
+    async function retryDropdowns() {
+      // Reset both selects to loading state before retry
+      ['brand_niche', 'brand_network'].forEach(id => {
+        const sel = document.getElementById(id);
+        sel.innerHTML = '<option value="">Đang load...</option>';
+        sel.className = 'loading';
+      });
+      document.getElementById('ddError').classList.remove('on');
+      await loadDropdowns();
+    }
+
+    async function loadNiche() {
+      const sel = document.getElementById('brand_niche');
+      let errMsg = '';
+      try {
+        const data = await GET(`/v2/meta/tables/${C.T_BRANDS_META}`);
+        const field = (data.columns || []).find(f =>
+          f.title?.toLowerCase() === 'niche' || f.column_name?.toLowerCase() === 'niche'
+        );
+
+        const opts = field?.colOptions?.options || [];
+        if (opts.length === 0) {
+          errMsg = 'Field "niche" không có options — kiểm tra lại cấu hình Single Select trong NocoDB';
+          throw new Error(errMsg);
+        }
+        sel.innerHTML = '<option value="">-- Chọn niche --</option>';
+        opts.forEach(o => {
+          const el = document.createElement('option');
+          el.value = o.title; el.textContent = o.title;
+          sel.appendChild(el);
+        });
+        sel.className = ''; // clear loading
+      } catch (err) {
+        sel.innerHTML = '<option value="">⚠ Load thất bại</option>';
+        sel.className = 'load-error';
+        throw new Error('Niche: ' + (errMsg || err.message));
+      }
+    }
+
+    async function loadCommissionType() {
+      const sel = document.getElementById('commission_type');
+      let errMsg = '';
+      try {
+        const data = await GET(`/v2/meta/tables/${C.T_OFFERS}`);
+        const field = (data.columns || []).find(f =>
+          f.title?.toLowerCase() === 'commission type' || f.column_name?.toLowerCase() === 'commission_type'
+        );
+        const opts = field?.colOptions?.options || [];
+        if (opts.length === 0) {
+          errMsg = 'Field "commission_type" không có options — kiểm tra lại Single Select trong NocoDB';
+          throw new Error(errMsg);
+        }
+        sel.innerHTML = '<option value="">-- Chọn --</option>';
+        opts.forEach(o => {
+          const el = document.createElement('option');
+          el.value = o.title; el.textContent = o.title;
+          sel.appendChild(el);
+        });
+        sel.className = ''; // clear loading
+      } catch (err) {
+        // Fallback: dùng hardcode nếu API thất bại
+        sel.innerHTML = `
+          <option value="">-- Chọn --</option>
+          <option value="pct">pct</option>
+          <option value="flat">flat</option>
+          <option value="cpa">cpa</option>`;
+        sel.className = 'load-error';
+        console.warn('CommissionType fallback to hardcode:', err.message);
+        // Không throw — dùng fallback thay vì block toàn bộ form
+      }
+    }
+
+    async function loadPaymentSchedule() {
+      const sel = document.getElementById('payment_schedule');
+      try {
+        const data = await GET(`/v2/meta/tables/${C.T_OFFERS}`);
+        const field = (data.columns || []).find(f =>
+          f.title?.toLowerCase() === 'payment schedule' || f.column_name?.toLowerCase() === 'payment_schedule'
+        );
+        const opts = field?.colOptions?.options || [];
+        if (opts.length === 0) throw new Error('no options');
+        sel.innerHTML = '<option value="">-- Chọn --</option>';
+        opts.forEach(o => {
+          const el = document.createElement('option');
+          el.value = o.title; el.textContent = o.title;
+          sel.appendChild(el);
+        });
+        sel.className = '';
+      } catch (err) {
+        // Fallback hardcode
+        sel.innerHTML = `
+          <option value="">-- Chọn --</option>
+          <option value="net30">net30</option>
+          <option value="net60">net60</option>
+          <option value="monthly">monthly</option>
+          <option value="weekly">weekly</option>
+          <option value="biweekly">biweekly</option>`;
+        sel.className = '';
+        console.warn('PaymentSchedule fallback:', err.message);
+      }
+    }
+
+    async function loadPaymentMethod() {
+      const sel = document.getElementById('payment_method');
+      try {
+        const data = await GET(`/v2/meta/tables/${C.T_OFFERS}`);
+        const field = (data.columns || []).find(f =>
+          f.title?.toLowerCase() === 'payment method' || f.column_name?.toLowerCase() === 'payment_method'
+        );
+        const opts = field?.colOptions?.options || [];
+        if (opts.length === 0) throw new Error('no options');
+        sel.innerHTML = '<option value="">-- Chọn --</option>';
+        opts.forEach(o => {
+          const el = document.createElement('option');
+          el.value = o.title; el.textContent = o.title;
+          sel.appendChild(el);
+        });
+        sel.className = '';
+      } catch (err) {
+        sel.innerHTML = `
+          <option value="">-- Chọn --</option>
+          <option value="paypal">PayPal</option>
+          <option value="check">Check</option>
+          <option value="wire">Wire</option>
+          <option value="payoneer">Payoneer</option>`;
+        sel.className = '';
+        console.warn('PaymentMethod fallback:', err.message);
+      }
+    }
+
+    async function loadCheckSource() {
+      const sel = document.getElementById('check_source');
+      try {
+        const data = await GET(`/v2/meta/tables/${C.T_CHECKS}`);
+        const field = (data.columns || []).find(f =>
+          f.title?.toLowerCase() === 'source' || f.column_name?.toLowerCase() === 'source'
+        );
+        const opts = field?.colOptions?.options || [];
+        if (opts.length === 0) throw new Error('no options');
+        sel.innerHTML = '<option value="">-- Chọn nguồn --</option>';
+        opts.forEach(o => {
+          const el = document.createElement('option');
+          el.value = o.title; el.textContent = o.title;
+          sel.appendChild(el);
+        });
+        sel.className = '';
+      } catch (err) {
+        // Fallback hardcode
+        sel.innerHTML = `
+          <option value="">-- Chọn nguồn --</option>
+          <option value="transparency_center">Google Transparency Center</option>
+          <option value="spyfu">SpyFu</option>
+          <option value="similarweb">SimilarWeb</option>
+          <option value="manual">Manual (tự search)</option>`;
+        sel.className = '';
+        console.warn('CheckSource fallback:', err.message);
+      }
+    }
+
+    async function loadCompType() {
+      try {
+        const data = await GET(`/v2/meta/tables/${C.T_COMPETITORS}`);
+        const field = (data.columns || []).find(f =>
+          f.title?.toLowerCase() === 'type' || f.column_name?.toLowerCase() === 'type'
+        );
+        const opts = field?.colOptions?.options || [];
+        if (opts.length === 0) throw new Error('no options');
+        window._compTypeOpts = opts.map(o => ({ value: o.title, label: o.title }));
+      } catch (err) {
+        // Fallback hardcode
+        window._compTypeOpts = [
+          { value: 'affiliate', label: 'Affiliate' },
+          { value: 'brand_direct', label: 'Brand Direct' },
+          { value: 'unknown', label: 'Unknown' }
+        ];
+        console.warn('CompType fallback:', err.message);
+      }
+    }
+
+    async function loadNetworks() {
+      const sel = document.getElementById('brand_network');
+      let errMsg = '';
+      try {
+        // Cập nhật API v2 GET records
+        const data = await GET(`/v2/tables/${C.T_NETWORKS}/records?limit=100&where=(Status,eq,active)&sort=Name`);
+        console.log('data', data);
+        const nets = data.list || [];
+        if (nets.length === 0) {
+          errMsg = 'Bảng NETWORKS không có record active nào — thêm ít nhất 1 network vào NocoDB';
+          throw new Error(errMsg);
+        }
+        sel.innerHTML = '<option value="">-- Chọn network --</option>';
+        nets.forEach(n => {
+          const o = document.createElement('option');
+          o.value = n.Id;                        // lưu Id để link field
+          o.dataset.name = n.Name || n.name;     // giữ Name để hiển thị summary
+          o.textContent = n.Name || n.name;
+          sel.appendChild(o);
+        });
+        sel.className = ''; // clear loading
+      } catch (err) {
+        sel.innerHTML = '<option value="">⚠ Load thất bại</option>';
+        sel.className = 'load-error';
+        throw new Error('Network: ' + (errMsg || err.message));
+      }
+    }
+
+    // ── Gate Logic ────────────────────────────────
+
+    function calcCommissionEst() {
+      const type = document.getElementById('commission_type')?.value;
+      const val = parseFloat(document.getElementById('commission_value')?.value) || 0;
+      const aov = parseFloat(document.getElementById('aov')?.value) || 0;
+      if (!type || val === 0) return null;
+      if (type === 'flat') return val;
+      if (type === 'pct') return aov > 0 ? Math.round(val / 100 * aov * 100) / 100 : null;
+      return null;
+    }
+
+    function evalGate1(commEst) {
+      if (commEst === null) return { state: 'empty', value: '—', badge: '—' };
+      if (commEst >= GATE.commission_best) return { state: 'best', value: `$${commEst.toFixed(2)}`, badge: 'best' };
+      if (commEst >= GATE.commission_pass) return { state: 'pass', value: `$${commEst.toFixed(2)}`, badge: 'pass' };
+      return { state: 'fail', value: `$${commEst.toFixed(2)}`, badge: 'fail' };
+    }
+
+    function evalGate2(kw, niche) {
+      if (!kw && kw !== 0) return { state: 'empty', value: '—', badge: '—' };
+      const thresh = isDigital(niche) ? GATE.kw_digital : GATE.kw_ecom;
+      const fmt = Number(kw).toLocaleString('vi-VN');
+      const thFmt = Number(thresh).toLocaleString('vi-VN');
+      return kw >= thresh
+        ? { state: 'pass', value: `${fmt}/mo`, badge: 'pass' }
+        : { state: 'fail', value: `${fmt}/mo ‹ ${thFmt}`, badge: 'fail' };
+    }
+
+    function evalGate3(traffic, niche) {
+      if (!traffic && traffic !== 0) return { state: 'empty', value: '—', badge: '—' };
+      const thresh = isDigital(niche) ? GATE.traffic_digital : GATE.traffic_ecom;
+      const fmt = Number(traffic).toLocaleString('vi-VN');
+      const thFmt = Number(thresh).toLocaleString('vi-VN');
+      return traffic >= thresh
+        ? { state: 'pass', value: `${fmt}/mo`, badge: 'pass' }
+        : { state: 'fail', value: `${fmt}/mo ‹ ${thFmt}`, badge: 'fail' };
+    }
+
+    function onNicheChange() { updateGates(); }
+
+    function toggleRecurring() {
+      const btn = document.getElementById('is_recurring_btn');
+      const inp = document.getElementById('is_recurring');
+      const isOn = btn.classList.toggle('on');
+      inp.value = isOn ? 'true' : 'false';
+    }
+
+    function updateGates() {
+      const niche = document.getElementById('brand_niche')?.value || '';
+      const kw = parseFloat(document.getElementById('kw_volume')?.value);
+      const traffic = parseFloat(document.getElementById('traffic_monthly')?.value);
+      const commEst = calcCommissionEst();
+
+      const g1 = evalGate1(commEst);
+      const g2 = evalGate2(isNaN(kw) ? null : kw, niche);
+      const g3 = evalGate3(isNaN(traffic) ? null : traffic, niche);
+
+      const nicheLabel = niche ? ` <span>(${isDigital(niche) ? 'digital' : 'ecom'})</span>` : '';
+
+      const kw_thresh = isDigital(niche) ? `≥${Number(GATE.kw_digital).toLocaleString()}` : `≥${GATE.kw_ecom}`;
+      const traffic_thresh = isDigital(niche) ? `≥${Number(GATE.traffic_digital).toLocaleString()}` : `≥${Number(GATE.traffic_ecom).toLocaleString()}`;
+
+      document.getElementById('gate_rows').innerHTML = `
+    <div class="gate-row ${g1.state}">
+      <div class="gate-dot"></div>
+      <div class="gate-label">Gate 1 · Commission <span>≥$${GATE.commission_pass} pass · ≥$${GATE.commission_best} best</span></div>
+      <div class="gate-value">${g1.value}</div>
+      <div class="gate-badge">${g1.badge}</div>
+    </div>
+    <div class="gate-row ${g2.state}">
+      <div class="gate-dot"></div>
+      <div class="gate-label">Gate 2 · Keyword volume${nicheLabel} <span>${kw_thresh}/mo</span></div>
+      <div class="gate-value">${g2.value}</div>
+      <div class="gate-badge">${g2.badge}</div>
+    </div>
+    <div class="gate-row ${g3.state}">
+      <div class="gate-dot"></div>
+      <div class="gate-label">Gate 3 · Website traffic${nicheLabel} <span>${traffic_thresh}/mo</span></div>
+      <div class="gate-value">${g3.value}</div>
+      <div class="gate-badge">${g3.badge}</div>
+    </div>
+  `;
+
+      // Score & verdict
+      const gates = [g1, g2, g3];
+      const filled = gates.filter(g => g.state !== 'empty');
+      const passed = gates.filter(g => g.state === 'pass' || g.state === 'best').length;
+
+      const scoreEl = document.getElementById('gate_score');
+      const verdictEl = document.getElementById('gate_verdict');
+
+      if (filled.length === 0) {
+        scoreEl.innerHTML = '—';
+        verdictEl.textContent = 'pending';
+        verdictEl.className = 'gate-verdict';
+        return;
+      }
+
+      scoreEl.innerHTML = `<strong>${passed}</strong> / ${gates.length} pass`;
+
+      if (passed === 3) {
+        verdictEl.textContent = 'GO';
+        verdictEl.className = 'gate-verdict all-pass';
+      } else if (passed === 0) {
+        verdictEl.textContent = 'NO';
+        verdictEl.className = 'gate-verdict all-fail';
+      } else {
+        verdictEl.textContent = `${passed}/3 — HOLD`;
+        verdictEl.className = 'gate-verdict partial';
+      }
+    }
+
+    // ── Competitor dynamic list ───────────────────
+    function addComp() {
+      comps.push({ id: Date.now(), name: '', url: '', type: '', dbId: null });
+      renderComps();
+    }
+    function removeComp(id) {
+      // If it was loaded from DB, remove from addedDbIds so it can be re-added
+      const c = comps.find(c => c.id === id);
+      if (c && c.dbId) addedDbIds.delete(c.dbId);
+      comps = comps.filter(c => c.id !== id);
+      renderComps();
+      if (allDbComps.length > 0) renderCdbList(filteredDbComps);
+    }
+    function updateComp(id, field, val) {
+      const c = comps.find(c => c.id === id);
+      if (c) c[field] = val;
+    }
+    function buildTypeOptions(selectedVal) {
+      const blank = `<option value="">-- Type --</option>`;
+      if (!window._compTypeOpts || window._compTypeOpts.length === 0) {
+        // fallback hardcode nếu chưa load xong
+        return blank +
+          ['affiliate', 'brand_direct', 'unknown'].map(v =>
+            `<option value="${v}" ${selectedVal === v ? 'selected' : ''}>${v}</option>`
+          ).join('');
+      }
+      return blank + window._compTypeOpts.map(o =>
+        `<option value="${o.value}" ${selectedVal === o.value ? 'selected' : ''}>${o.label}</option>`
+      ).join('');
+    }
+    function renderComps() {
+      const list = document.getElementById('clist');
+      if (comps.length === 0) {
+        list.innerHTML = '<div class="cempty">Chưa có competitor — thêm mới hoặc load từ DB bên trên</div>';
+        return;
+      }
+      list.innerHTML = comps.map((c, idx) => `
+    <div class="ccard">
+      <div class="ccard-hdr">
+        <span class="ccard-num">#${idx + 1}</span>
+        <button class="btn-rm" onclick="removeComp(${c.id})" title="Xóa">×</button>
+      </div>
+      <div class="ccard-field full">
+        <span class="ccard-lbl">Domain / Advertiser</span>
+        <input type="text" placeholder="VD: couponbirds.com"
+          value="${escHtml(c.name)}" oninput="updateComp(${c.id},'name',this.value)">
+      </div>
+      <div class="ccard-row">
+        <div class="ccard-field">
+          <span class="ccard-lbl">URL</span>
+          <input type="url" placeholder="https://..."
+            value="${escHtml(c.url || '')}" oninput="updateComp(${c.id},'url',this.value)">
+        </div>
+        <div class="ccard-field">
+          <span class="ccard-lbl">Type</span>
+          <select onchange="updateComp(${c.id},'type',this.value)">
+            ${buildTypeOptions(c.type)}
+          </select>
+        </div>
+      </div>
+    </div>
+  `).join('');
+    }
+    function escHtml(s) { return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+
+    // ── Competitor search autocomplete ───────────
+    const addedDbIds = new Set();
+    const researchedDbIds = new Set();
+    let _csSearchTimer = null;
+    let _csHighlight = -1;
+    let _csSuggestions = [];
+
+    function onCompSearch(val) {
+      const clear = document.getElementById('compSearchClear');
+      if (clear) clear.classList.toggle('visible', val.length > 0);
+      clearTimeout(_csSearchTimer);
+      if (!val.trim()) { closeSuggest(); return; }
+      _csSearchTimer = setTimeout(() => fetchSuggestions(val.trim()), 280);
+    }
+
+    async function fetchSuggestions(q) {
+      const box = document.getElementById('csuggest');
+      box.innerHTML = '<div class="csug-status">Đang tìm...</div>';
+      box.classList.add('open');
+      try {
+        // Dùng Request object với URL thô — tránh browser encode lại % trong where clause
+        const url = `${C.URL}/api/v2/tables/${C.T_COMPETITORS}/records?limit=8&where=(Name,like,%${q}%)&sort=Name`;
+        const r = await fetch(url, { headers: hdrs() });
+        if (!r.ok) throw new Error(`${r.status}`);
+        const data = await r.json();
+        _csSuggestions = data.list || [];
+        _csHighlight = -1;
+        renderSuggestions(q);
+      } catch (err) {
+        box.innerHTML = `<div class="csug-status">Lỗi: ${err.message}</div>`;
+      }
+    }
+
+    function highlightMatch(text, query) {
+      const idx = text.toLowerCase().indexOf(query.toLowerCase());
+      if (idx === -1) return escHtml(text);
+      return escHtml(text.slice(0, idx))
+        + '<mark>' + escHtml(text.slice(idx, idx + query.length)) + '</mark>'
+        + escHtml(text.slice(idx + query.length));
+    }
+
+    function renderSuggestions(q) {
+      const box = document.getElementById('csuggest');
+      if (_csSuggestions.length === 0) {
+        box.innerHTML = '<div class="csug-status">Không tìm thấy — có thể thêm mới bên dưới</div>';
+        return;
+      }
+      box.innerHTML = _csSuggestions.map((c, i) => {
+        const dbId = c.Id || c.id;
+        const name = c.Name || c.name || '';
+        const type = c.Type || c.type || '';
+        const url = c.URL || c.url || '';  // URL lưu trong field URL
+        const tagClass = type === 'affiliate' ? 'affiliate' : type === 'brand_direct' ? 'brand_direct' : '';
+        const tagLabel = type === 'affiliate' ? 'Affiliate' : type === 'brand_direct' ? 'Brand Direct' : type || 'Unknown';
+        const isAdded = addedDbIds.has(dbId);
+        return `
+        <div class="csug-item${i === _csHighlight ? ' active' : ''}" id="csug-${i}"
+          onmousedown="selectSuggestion(${dbId},'${escHtml(name)}','${escHtml(type)}','${escHtml(url)}')">
+          <div class="csug-item-info">
+            <div class="csug-name">${highlightMatch(name, q)}</div>
+            ${url ? `<div class="csug-meta">${escHtml(url)}</div>` : ''}
+          </div>
+          <span class="csug-tag ${tagClass}">${tagLabel}</span>
+          <button class="csug-add-btn ${isAdded ? 'added' : ''}" ${isAdded ? 'disabled' : ''}>
+            ${isAdded ? '✓ Added' : '+ Add'}
+          </button>
+        </div>`;
+      }).join('');
+    }
+
+    function selectSuggestion(dbId, name, type, url) {
+      if (addedDbIds.has(dbId)) { closeSuggest(); clearCompSearch(); return; }
+      addedDbIds.add(dbId);
+      comps.push({ id: Date.now(), name, url: url || '', type, dbId });
+      renderComps();
+      closeSuggest();
+      clearCompSearch();
+    }
+
+    function onCompSearchKey(e) {
+      const box = document.getElementById('csuggest');
+      if (!box.classList.contains('open')) return;
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        _csHighlight = Math.min(_csHighlight + 1, _csSuggestions.length - 1);
+        renderSuggestions(document.getElementById('compSearchInput').value);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        _csHighlight = Math.max(_csHighlight - 1, -1);
+        renderSuggestions(document.getElementById('compSearchInput').value);
+      } else if (e.key === 'Enter' && _csHighlight >= 0) {
+        e.preventDefault();
+        const c = _csSuggestions[_csHighlight];
+        if (c) selectSuggestion(c.Id || c.id, c.name || c.Name || '', c.type || c.Type || '', c.url || c.Url || '');
+      } else if (e.key === 'Escape') {
+        closeSuggest();
+      }
+    }
+
+    function closeSuggest() {
+      const box = document.getElementById('csuggest');
+      if (box) { box.classList.remove('open'); box.innerHTML = ''; }
+      _csHighlight = -1;
+    }
+
+    function clearCompSearch() {
+      const inp = document.getElementById('compSearchInput');
+      if (inp) inp.value = '';
+      const clear = document.getElementById('compSearchClear');
+      if (clear) clear.classList.remove('visible');
+      closeSuggest();
+    }
+
+    // Close suggest when clicking outside
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.csearch-wrap')) closeSuggest();
+    });
+
+    function checkThresh(v) {
+      document.getElementById('cwarn').classList.toggle('on', v && parseInt(v) > C.COMP_THRESH);
+    }
+
+    // ── Validation ────────────────────────────────
+    const RULES = {
+      1: ['brand_name', 'brand_website', 'brand_niche', 'brand_network'],
+      2: ['commission_type', 'commission_value'],
+      3: []
+    };
+    function validate(s) {
+      let ok = true;
+
+      // Step 1 extra check: block if dropdown failed to load from DB
+      if (s === 1) {
+        ['brand_niche', 'brand_network'].forEach(id => {
+          const sel = document.getElementById(id);
+          if (sel && sel.classList.contains('load-error')) {
+            sel.classList.add('err');
+            ok = false;
+          }
+        });
+        if (!ok) {
+          // Make sure banner is visible
+          document.getElementById('ddError').classList.add('on');
+          return false;
+        }
+      }
+
+      (RULES[s] || []).forEach(id => {
+        const el = document.getElementById(id);
+        const err = document.getElementById('e-' + id);
+        if (!el) return;
+        const empty = el.value.trim() === '';
+        el.classList.toggle('err', empty);
+        if (err) err.classList.toggle('on', empty);
+        if (empty) ok = false;
+      });
+      return ok;
+    }
+    function clearErr(s) {
+      (RULES[s] || []).forEach(id => {
+        document.getElementById(id)?.classList.remove('err');
+        document.getElementById('e-' + id)?.classList.remove('on');
+      });
+    }
+
+    // ── Navigation ────────────────────────────────
+    function show(s) {
+      document.querySelectorAll('.sec').forEach(el => el.classList.remove('on'));
+      document.getElementById('s' + s).classList.add('on');
+      document.querySelectorAll('.step').forEach(el => {
+        const n = parseInt(el.dataset.s);
+        el.classList.remove('active', 'done');
+        if (n === s) el.classList.add('active');
+        if (n < s) el.classList.add('done');
+      });
+      document.getElementById('bbk').style.display = s > 1 ? 'block' : 'none';
+      document.getElementById('bnx').textContent = s === STEPS ? 'Lưu Research ✓' : 'Next →';
+      step = s;
+    }
+    function next() {
+      clearErr(step);
+      if (!validate(step)) return;
+      if (step < STEPS) show(step + 1);
+      else submit();
+    }
+    function prev() { if (step > 1) show(step - 1); }
+
+    document.querySelectorAll('.step').forEach(el => {
+      el.addEventListener('click', () => {
+        const s = parseInt(el.dataset.s);
+        if (s < step) show(s);
+      });
+    });
+
+    // ── Helpers ───────────────────────────────────
+    const v = id => document.getElementById(id)?.value.trim() ?? '';
+    const num = id => { const x = v(id); return x === '' ? null : parseFloat(x); };
+    const today = () => new Date().toISOString().split('T')[0];
+    const fmt = n => n ? Number(n).toLocaleString('vi-VN') : null;
+
+    function setStatus(type, msg) {
+      const bar = document.getElementById('statusbar');
+      const txt = document.getElementById('stxt');
+      const sp = document.getElementById('spin');
+      bar.className = 'status on ' + type;
+      txt.textContent = msg;
+      sp.style.display = type === 'loading' ? 'block' : 'none';
+    }
+    function hideStatus() { document.getElementById('statusbar').classList.remove('on'); }
+
+    // ── Submit ────────────────────────────────────
+    // ── Link API helper (NocoDB v2) ──────────────
+    // PATCH /records không link được — phải dùng POST /links/{fieldId}/records/{rowId}
+    async function LINK(tableId, fieldId, rowId, targetIds) {
+      if (!targetIds || targetIds.length === 0) return;
+      const r = await fetch(`${base()}/v2/tables/${tableId}/links/${fieldId}/records/${rowId}`, {
+        method: 'POST', headers: hdrs(),
+        body: JSON.stringify(targetIds.map(id => ({ Id: id })))
+      });
+      if (!r.ok) {
+        const txt = await r.text();
+        throw new Error(`LINK ${tableId}/${fieldId} → ${r.status}: ${txt}`);
+      }
+    }
+
+    async function submit() {
+      const btn = document.getElementById('bnx');
+      btn.disabled = true;
+
+      try {
+        // ══════════════════════════════════════════
+        // PHASE 0: Load field IDs cho link fields
+        // ══════════════════════════════════════════
+        setStatus('loading', 'Đang load cấu hình...');
+
+        // Lấy meta của từng bảng để tìm fieldId của link fields
+        const [metaOffers, metaCompetitors, metaChecks] = await Promise.all([
+          GET(`/v2/meta/tables/${C.T_OFFERS}`),
+          GET(`/v2/meta/tables/${C.T_COMPETITORS}`),
+          GET(`/v2/meta/tables/${C.T_CHECKS}`)
+        ]);
+
+        const findField = (meta, name) => {
+          const col = (meta.columns || []).find(c =>
+            c.title === name || c.column_name === name
+          );
+          if (!col) throw new Error(`Không tìm thấy field "${name}" trong bảng`);
+          return col.id;
+        };
+
+        const fOffBrands = findField(metaOffers, 'BRANDS');
+        const fOffNetworks = findField(metaOffers, 'NETWORKS');
+        const fCompBrands = findField(metaCompetitors, 'BRANDS');
+        const fChkBrands = findField(metaChecks, 'BRANDS');
+        const fChkCompFound = findField(metaChecks, 'Competitors Found');
+
+        // ══════════════════════════════════════════
+        // PHASE 1: POST scalar fields only
+        // Không gửi bất kỳ link field nào
+        // ══════════════════════════════════════════
+
+        // 1. BRANDS
+        setStatus('loading', 'Đang lưu brand...');
+        const brand = await POST(C.T_BRANDS, {
+          Name: v('brand_name'),
+          Website: v('brand_website'),
+          Niche: v('brand_niche'),
+          'Kw Volume': num('kw_volume'),
+          'Traffic Monthly': num('traffic_monthly'),
+          Status: 'researching',
+          Note: v('brand_notes')
+        });
+        const newBrandId = brand.Id || (brand[0] && brand[0].Id);
+        if (!newBrandId) throw new Error('Không lấy được Id của Brand vừa tạo');
+
+        // 2. OFFERS (scalar only)
+        setStatus('loading', 'Đang lưu offer...');
+        const networkId = parseInt(v('brand_network'));
+        if (isNaN(networkId) || networkId <= 0)
+          throw new Error('Network chưa được chọn hoặc dropdown chưa load xong');
+        const networkName = document.querySelector('#brand_network option:checked')?.dataset?.name || '';
+        const offer = await POST(C.T_OFFERS, {
+          Title: `${v('brand_name')} — ${networkName}`,
+          'Commission Type': v('commission_type'),
+          'Commission Value': num('commission_value'),
+          AOV: num('aov'),
+          'Cookie Days': num('cookie_days'),
+          'EPC Network': num('epc_network'),
+          'Affiliate Program Url': v('affiliate_program_url') || null,
+          'Is Recurring': document.getElementById('is_recurring').value === 'true',
+          'Payment Method': v('payment_method') || null,
+          'Min Payment': num('min_payout'),
+          'Payment Schedule': v('payment_schedule'),
+          Note: v('offer_notes')
+        });
+        const newOfferId = offer.Id || (offer[0] && offer[0].Id);
+        if (!newOfferId) throw new Error('Không lấy được Id của Offer vừa tạo');
+
+        // 3. COMPETITORS (scalar only)
+        const named = comps.filter(c => c.name.trim());
+        const newCompIds = [];  // Id của competitors mới tạo
+        const dbCompIds = [];  // Id của competitors đã có trong DB
+
+        if (named.length > 0) {
+          setStatus('loading', `Đang lưu ${named.length} competitor${named.length > 1 ? 's' : ''}...`);
+          const newComps = named.filter(c => !c.dbId);
+          const dbComps = named.filter(c => c.dbId);
+
+          const postResults = await Promise.all(
+            newComps.map(c => POST(C.T_COMPETITORS, {
+              Name: c.name.trim(),
+              Type: c.type,
+              'First Seen': today(),
+              'Last Seen': today(),
+              'IS Active': true,
+              URL: c.url?.trim() || null
+            }))
+          );
+          postResults.forEach(r => {
+            const cId = r.Id || (r[0] && r[0].Id);
+            if (cId) newCompIds.push(cId);
+          });
+
+          dbComps.forEach(c => dbCompIds.push(c.dbId));
+        }
+
+        const allCompIds = [...newCompIds, ...dbCompIds];
+
+        // 4. COMPETITOR_CHECKS (scalar only)
+        setStatus('loading', 'Đang lưu competitor check...');
+        const _d = new Date();
+        const _dd = String(_d.getDate()).padStart(2, '0');
+        const _mm = String(_d.getMonth() + 1).padStart(2, '0');
+        const _yyyy = _d.getFullYear();
+        const checkTitle = `${v('brand_name')} ${_dd}.${_mm}.${_yyyy}`;
+        const check = await POST(C.T_CHECKS, {
+          Title: checkTitle,
+          'Check Date': today(),
+          Source: v('check_source') || 'manual'
+        });
+        const newCheckId = check.Id || (check[0] && check[0].Id);
+        if (!newCheckId) throw new Error('Không lấy được Id của Competitor Check vừa tạo');
+
+        // ══════════════════════════════════════════
+        // PHASE 2: LINK — dùng Link API của NocoDB v2
+        // POST /v2/tables/{tid}/links/{fieldId}/records/{rowId}
+        // ══════════════════════════════════════════
+        setStatus('loading', 'Đang link dữ liệu...');
+
+        const linkTasks = [
+          // OFFERS → BRANDS
+          LINK(C.T_OFFERS, fOffBrands, newOfferId, [newBrandId]),
+          // OFFERS → NETWORKS
+          LINK(C.T_OFFERS, fOffNetworks, newOfferId, [networkId]),
+          // COMPETITOR_CHECKS → BRANDS
+          LINK(C.T_CHECKS, fChkBrands, newCheckId, [newBrandId]),
+          // COMPETITOR_CHECKS → Competitors Found
+          ...(allCompIds.length > 0
+            ? [LINK(C.T_CHECKS, fChkCompFound, newCheckId, allCompIds)]
+            : []),
+          // New COMPETITORS → BRANDS
+          ...newCompIds.map(cId => LINK(C.T_COMPETITORS, fCompBrands, cId, [newBrandId])),
+          // Existing DB COMPETITORS → BRANDS + cập nhật Last Seen
+          ...named.filter(c => c.dbId && !researchedDbIds.has(c.dbId)).map(c =>
+            Promise.all([
+              LINK(C.T_COMPETITORS, fCompBrands, c.dbId, [newBrandId]),
+              fetch(`${base()}/v2/tables/${C.T_COMPETITORS}/records`, {
+                method: 'PATCH', headers: hdrs(),
+                body: JSON.stringify({ Id: c.dbId, 'Last Seen': today(), 'IS Active': true })
+              })
+            ])
+          )
+        ];
+
+        await Promise.all(linkTasks);
+
+        setStatus('ok', 'Đã lưu thành công!');
+        setTimeout(showDone, 700);
+
+      } catch (err) {
+        setStatus('fail', 'Lỗi: ' + err.message);
+        btn.disabled = false;
+      }
+    }
+
+    // ── Success screen ────────────────────────────
+    function showDone() {
+      document.getElementById('fw').style.display = 'none';
+      document.getElementById('donescreen').classList.add('on');
+
+      const cc = v('competitor_count');
+      const named = comps.filter(c => c.name.trim());
+      const ct = v('commission_type');
+      const cv = v('commission_value');
+      const kwv = num('kw_volume');
+      const tfv = num('traffic_monthly');
+
+      // Recalc gate for summary
+      const niche = v('brand_niche');
+      const commEst = calcCommissionEst();
+      const g1 = evalGate1(commEst);
+      const g2 = evalGate2(kwv, niche);
+      const g3 = evalGate3(tfv, niche);
+      const passed = [g1, g2, g3].filter(g => g.state === 'pass' || g.state === 'best').length;
+      const filled = [g1, g2, g3].filter(g => g.state !== 'empty').length;
+
+      const gateColor = passed === 3 ? 'g' : passed === 0 && filled > 0 ? 'r' : 'a';
+      const gateText = filled === 0 ? 'pending'
+        : passed === 3 ? `${passed}/3 — GO`
+          : passed === 0 ? `${passed}/3 — NO`
+            : `${passed}/3 — HOLD`;
+
+      document.getElementById('donesum').innerHTML = `
+    <div class="sum-row"><span class="sum-k">brand</span><span class="sum-v">${v('brand_name')}</span></div>
+    <div class="sum-row"><span class="sum-k">website</span><span class="sum-v">${v('brand_website')}</span></div>
+    <div class="sum-row"><span class="sum-k">niche</span><span class="sum-v">${niche || '—'}</span></div>
+    <div class="sum-row"><span class="sum-k">network</span><span class="sum-v">${document.querySelector('#brand_network option:checked')?.dataset?.name || v('brand_network')}</span></div>
+    <div class="sum-divider"></div>
+    <div class="sum-row"><span class="sum-k">commission</span><span class="sum-v g">${cv}${ct === 'pct' ? '%' : '$'}${commEst ? ` → $${commEst.toFixed(2)}/sale` : ''}</span></div>
+    ${num('cookie_days') ? `<div class="sum-row"><span class="sum-k">cookie</span><span class="sum-v">${v('cookie_days')} ngày</span></div>` : ''}
+    ${num('epc_network') ? `<div class="sum-row"><span class="sum-k">EPC network</span><span class="sum-v">$${v('epc_network')}</span></div>` : ''}
+    <div class="sum-divider"></div>
+    ${kwv ? `<div class="sum-row"><span class="sum-k">kw volume</span><span class="sum-v ${g2.state === 'pass' || g2.state === 'best' ? 'g' : 'r'}">${fmt(kwv)}/mo</span></div>` : ''}
+    ${tfv ? `<div class="sum-row"><span class="sum-k">traffic</span><span class="sum-v ${g3.state === 'pass' || g3.state === 'best' ? 'g' : 'r'}">${fmt(tfv)}/mo</span></div>` : ''}
+    <div class="sum-divider"></div>
+    <div class="sum-row">
+      <span class="sum-k">gate preview</span>
+      <span class="sum-v ${gateColor}">${gateText}</span>
+    </div>
+    <div class="sum-row">
+      <span class="sum-k">competitors</span>
+      <span class="sum-v ${parseInt(cc) > C.COMP_THRESH ? 'a' : ''}">
+        ${cc || '—'} tổng${named.length ? `, ${named.length} identified` : ''}
+      </span>
+    </div>
+    <div class="sum-row"><span class="sum-k">apply status</span><span class="sum-v">not applied</span></div>
+  `;
+    }
+
+    // ── Reset ─────────────────────────────────────
+    function reset() {
+      document.getElementById('fw').style.display = 'block';
+      document.getElementById('donescreen').classList.remove('on');
+      document.getElementById('bnx').disabled = false;
+      document.getElementById('cwarn').classList.remove('on');
+      hideStatus();
+      document.querySelectorAll('input, textarea').forEach(el => el.value = '');
+      // Reset Is Recurring toggle về ON (default true)
+      const recBtn = document.getElementById('is_recurring_btn');
+      const recInp = document.getElementById('is_recurring');
+      if (recBtn) recBtn.classList.add('on');
+      if (recInp) recInp.value = 'true';
+      document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+      comps = [];
+      addedDbIds.clear();
+      researchedDbIds.clear();
+      // Reset DB panel badge but keep allDbComps — no need to reload
+      renderComps();
+      if (allDbComps.length > 0) renderCdbList(filteredDbComps);
+      updateGates();
+      show(1);
+    }
+
+    // ── Init ──────────────────────────────────────
+    renderComps();
+    updateGates();
+    loadDropdowns();
+  </script>
+</body>
+
+</html>
