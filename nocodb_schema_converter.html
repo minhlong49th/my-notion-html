@@ -1,0 +1,209 @@
+
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NocoDB Schema to Markdown</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Tùy chỉnh scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-slate-900 text-white p-6 border-b border-slate-800 flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-bold flex items-center gap-2">
+                    <i data-lucide="database" class="w-5 h-5 text-blue-400"></i>
+                    NocoDB Schema to AI Markdown
+                </h1>
+                <p class="text-sm text-slate-400 mt-1">Dán nội dung file JSON của bạn vào đây để chuyển đổi thành format tối ưu cho AI Agent</p>
+            </div>
+            <button onclick="parseJSON()" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-sm">
+                <i data-lucide="wand-2" class="w-4 h-4"></i>
+                Tạo Markdown
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-0 divide-y md:divide-y-0 md:divide-x divide-slate-200 h-[calc(100vh-160px)] min-h-[500px]">
+            
+            <!-- Input Area -->
+            <div class="flex flex-col h-full bg-slate-50">
+                <div class="p-3 border-b border-slate-200 bg-slate-100 flex justify-between items-center text-sm font-medium text-slate-600">
+                    <span class="flex items-center gap-1.5"><i data-lucide="code-2" class="w-4 h-4"></i> Dữ liệu JSON đầu vào</span>
+                    <button onclick="document.getElementById('jsonInput').value=''" class="text-slate-400 hover:text-red-500 transition-colors" title="Xóa tất cả">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                </div>
+                <textarea id="jsonInput" class="w-full h-full p-4 bg-transparent outline-none resize-none font-mono text-sm text-slate-700 placeholder-slate-400" placeholder="Dán nội dung từ file OFFERS.txt (hoặc bất kỳ bảng nào) vào đây..."></textarea>
+            </div>
+
+            <!-- Output Area -->
+            <div class="flex flex-col h-full bg-white relative">
+                <div class="p-3 border-b border-slate-200 bg-slate-100 flex justify-between items-center text-sm font-medium text-slate-600">
+                    <span class="flex items-center gap-1.5"><i data-lucide="file-text" class="w-4 h-4"></i> Kết quả Markdown</span>
+                    <button id="copyBtn" onclick="copyToClipboard()" class="text-blue-600 hover:text-blue-700 flex items-center gap-1 transition-colors px-2 py-1 rounded hover:bg-blue-50 hidden">
+                        <i data-lucide="copy" class="w-4 h-4"></i> <span id="copyText">Copy</span>
+                    </button>
+                </div>
+                <textarea id="markdownOutput" class="w-full h-full p-4 bg-transparent outline-none resize-none font-mono text-sm text-slate-800" readonly placeholder="Kết quả sẽ hiển thị ở đây..."></textarea>
+                
+                <!-- Overlay Message -->
+                <div id="errorOverlay" class="absolute inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center hidden">
+                    <div class="text-center text-red-500 bg-red-50 px-6 py-4 rounded-lg border border-red-100">
+                        <i data-lucide="alert-circle" class="w-8 h-8 mx-auto mb-2"></i>
+                        <p id="errorMsg" class="font-medium text-sm"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function parseJSON() {
+            const input = document.getElementById('jsonInput').value.trim();
+            const outputEl = document.getElementById('markdownOutput');
+            const errorOverlay = document.getElementById('errorOverlay');
+            const errorMsg = document.getElementById('errorMsg');
+            const copyBtn = document.getElementById('copyBtn');
+
+            if (!input) {
+                showError("Vui lòng dán dữ liệu JSON vào ô bên trái.");
+                return;
+            }
+
+            try {
+                let data = JSON.parse(input);
+                if (!Array.isArray(data)) data = [data];
+
+                let finalMd = "";
+
+                data.forEach(table => {
+                    if (!table.columns) return; // Bỏ qua nếu không phải cấu trúc NocoDB
+
+                    let md = `### Table: \`${table.table_name || table.title || 'UNKNOWN'}\`\n\n`;
+
+                    let coreFields = [];
+                    let relationFields = [];
+                    let systemFields = [];
+
+                    table.columns.forEach(col => {
+                        const colName = col.title || col.column_name;
+                        const uidt = col.uidt || 'Unknown';
+                        const dt = col.dt || 'N/A';
+
+                        // 1. Phân loại System fields
+                        const sysNames = ['created_at', 'updated_at', 'created_by', 'updated_by', 'nc_order', 'nc_created_by', 'nc_updated_by'];
+                        if (col.system || sysNames.includes(col.column_name)) {
+                            systemFields.push(`* \`${col.column_name}\`: \`${uidt}\` (\`${dt}\`)`);
+                            return;
+                        }
+
+                        // 2. Phân loại Relations & Computed (Virtual fields)
+                        if (col.virtual || ['Links', 'LinkToAnotherRecord', 'Rollup', 'Formula', 'Lookup'].includes(uidt)) {
+                            let relType = col.colOptions?.type || 'Computed';
+                            if (relType === 'hm') relType = 'Has Many (hm)';
+                            if (relType === 'bt') relType = 'Belongs To (bt)';
+                            if (relType === 'mm') relType = 'Many to Many (mm)';
+
+                            let details = '';
+                            if (col.colOptions?.fk_related_model_id) {
+                                details = `Ref Model ID: \`${col.colOptions.fk_related_model_id}\``;
+                            }
+                            if (uidt === 'Formula') {
+                                let rawFormula = col.formula_raw || col.formula || 'Computed Formula';
+                                details = `Logic: \`${rawFormula.replace(/\n/g, ' ')}\``;
+                            }
+                            if (uidt === 'Rollup') {
+                                details = `Rollup Function: \`${col.colOptions?.rollup_function || 'N/A'}\``;
+                            }
+
+                            relationFields.push(`| \`${colName}\` | \`${uidt}\` | \`${relType}\` | ${details} |`);
+                            return;
+                        }
+
+                        // 3. Phân loại Core fields
+                        let attrs = [];
+                        if (col.pk) attrs.push('**Primary Key (PK)**');
+                        if (col.ai) attrs.push('Auto-increment');
+                        if (col.rqd) attrs.push('Required');
+                        
+                        // Extract dropdown options
+                        if (uidt === 'SingleSelect' && col.colOptions?.options) {
+                            let opts = col.colOptions.options.map(o => `'${o.title}'`).join(', ');
+                            attrs.push(`Allowed: ${opts}`);
+                        }
+
+                        // Extract Validation
+                        if (col.validate) {
+                            try {
+                                let valObj = JSON.parse(col.validate);
+                                if (valObj.func) attrs.push(`Valid: \`${valObj.func.join(',')}\``);
+                            } catch(e) {}
+                        }
+
+                        const attrString = attrs.length > 0 ? attrs.join(', ') : '-';
+                        coreFields.push(`| \`${colName}\` | \`${uidt}\` | \`${dt}\` | ${attrString} |`);
+                    });
+
+                    // Ghép Markdown
+                    md += "**Core Fields:**\n\n";
+                    md += "| Column Name | NocoDB Type (uidt) | SQL Type (dt) | Attributes / Constraints |\n";
+                    md += "| :--- | :--- | :--- | :--- |\n";
+                    md += (coreFields.length > 0 ? coreFields.join('\n') : '| - | - | - | - |') + "\n\n";
+
+                    md += "**Relations & Computed Fields:**\n\n";
+                    md += "| Column Name | NocoDB Type (uidt) | Relation Type | Details |\n";
+                    md += "| :--- | :--- | :--- | :--- |\n";
+                    md += (relationFields.length > 0 ? relationFields.join('\n') : '| - | - | - | - |') + "\n\n";
+
+                    md += "**System Fields (Auto-managed - Omit on Create/Update):**\n\n";
+                    md += systemFields.length > 0 ? systemFields.join('\n') : '* None';
+                    
+                    finalMd += md + "\n\n---\n\n";
+                });
+
+                outputEl.value = finalMd.trim();
+                hideError();
+                copyBtn.classList.remove('hidden');
+
+            } catch (err) {
+                showError("Định dạng JSON không hợp lệ. Đảm bảo bạn đã copy toàn bộ file: " + err.message);
+            }
+        }
+
+        function showError(msg) {
+            document.getElementById('errorMsg').innerText = msg;
+            document.getElementById('errorOverlay').classList.remove('hidden');
+            setTimeout(hideError, 4000);
+        }
+
+        function hideError() {
+            document.getElementById('errorOverlay').classList.add('hidden');
+        }
+
+        function copyToClipboard() {
+            const outputEl = document.getElementById('markdownOutput');
+            outputEl.select();
+            document.execCommand('copy');
+            
+            const copyText = document.getElementById('copyText');
+            copyText.innerText = "Đã copy!";
+            setTimeout(() => {
+                copyText.innerText = "Copy";
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
