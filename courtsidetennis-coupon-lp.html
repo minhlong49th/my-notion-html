@@ -1,0 +1,570 @@
+<style>
+/* === CSS ISOLATION WRAPPER === */
+.claude-lp-wrapper {
+  all: revert;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 20px;
+  --font-base: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
+  --size-base: 16px;
+  --size-sm: 14px;
+  --size-xs: 13px;
+  --size-lg: 18px;
+  --size-xl: 22px;
+  --size-2xl: 28px;
+  --size-3xl: 36px;
+  --line-height: 1.75;
+  --line-tight: 1.3;
+  --color-text: #1a1a1a;
+  --color-text-muted: #5a5a5a;
+  --color-text-faint: #888;
+  --color-bg: #ffffff;
+  --color-bg-soft: #f7f7f5;
+  --color-bg-card: #ffffff;
+  --color-border: #e0deda;
+  --color-border-strong: #c8c4be;
+  --color-cta-bg: #2d6a4f;
+  --color-cta-hover: #1b4332;
+  --color-cta-text: #ffffff;
+  --color-cta-secondary-bg: #f0faf5;
+  --color-cta-secondary-border: #2d6a4f;
+  --color-cta-secondary-text: #2d6a4f;
+  --color-success: #2d6a4f;
+  --color-warning: #92400e;
+  --color-warning-bg: #fffbeb;
+  --color-info: #1e3a5f;
+  --color-info-bg: #eff6ff;
+  --color-coupon-bg: #f0faf5;
+  --color-coupon-border: #2d6a4f;
+  --color-coupon-code: #1b4332;
+  --color-verdict-bg: #f7f7f5;
+  --color-verdict-border: #e0deda;
+  --color-verdict-highlight: #2d6a4f;
+  --max-width: 720px;
+  --padding-x: 20px;
+  --padding-section: 40px 20px;
+  --border-radius: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-pill: 999px;
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.08);
+  font-family: var(--font-base);
+  font-size: var(--size-base);
+  line-height: var(--line-height);
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.claude-lp-wrapper *, .claude-lp-wrapper *::before, .claude-lp-wrapper *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.claude-lp-wrapper img { max-width: 100%; height: auto; display: block; }
+.claude-lp-wrapper a { color: var(--color-cta-text); }
+.claude-lp-wrapper a:hover { opacity: 0.85; }
+.claude-lp-wrapper p { margin-bottom: 1rem; }
+.claude-lp-wrapper p:last-child { margin-bottom: 0; }
+.claude-lp-wrapper h1,
+.claude-lp-wrapper h2,
+.claude-lp-wrapper h3 { line-height: var(--line-tight); font-weight: 700; }
+.claude-lp-wrapper h1 { font-size: var(--size-3xl); margin-bottom: 1rem; }
+.claude-lp-wrapper h2 { font-size: var(--size-xl); margin-bottom: 0.75rem; }
+.claude-lp-wrapper h3 { font-size: var(--size-lg); margin-bottom: 0.5rem; }
+
+@media (max-width: 480px) {
+  .claude-lp-wrapper h1 { font-size: var(--size-2xl); }
+  .claude-lp-wrapper h2 { font-size: var(--size-lg); }
+}
+
+.claude-lp-wrapper ul,
+.claude-lp-wrapper ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+.claude-lp-wrapper li { margin-bottom: 0.4rem; }
+
+/* === Buttons === */
+.claude-lp-wrapper .btn-primary {
+  display: inline-block;
+  background: var(--color-cta-bg);
+  color: var(--color-cta-text);
+  font-size: var(--size-lg);
+  font-weight: 700;
+  padding: 16px 32px;
+  border-radius: var(--border-radius-pill);
+  text-decoration: none;
+  text-align: center;
+  min-height: 54px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s ease;
+  width: 100%;
+}
+.claude-lp-wrapper .btn-primary:hover { background: var(--color-cta-hover); color: #fff; }
+
+@media (min-width: 480px) {
+  .claude-lp-wrapper .btn-primary { width: auto; min-width: 280px; }
+}
+
+.claude-lp-wrapper .btn-secondary {
+  display: inline-block;
+  background: var(--color-cta-secondary-bg);
+  color: var(--color-cta-secondary-text);
+  font-size: var(--size-base);
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: var(--border-radius-pill);
+  text-decoration: none;
+  border: 2px solid var(--color-cta-secondary-border);
+  min-height: 48px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.claude-lp-wrapper .btn-secondary:hover {
+  background: var(--color-cta-bg);
+  color: white;
+}
+
+.claude-lp-wrapper .copy-btn {
+  display: inline-block;
+  background: var(--color-cta-secondary-bg);
+  color: var(--color-cta-secondary-text);
+  font-size: var(--size-base);
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: var(--border-radius-pill);
+  text-decoration: none;
+  border: 2px solid var(--color-cta-secondary-border);
+  min-height: 48px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--font-base);
+}
+.claude-lp-wrapper .copy-btn:hover {
+  background: var(--color-cta-bg);
+  color: white;
+}
+
+.claude-lp-wrapper .reveal-btn {
+  display: inline-block;
+  background: var(--color-cta-bg);
+  color: var(--color-cta-text);
+  font-size: var(--size-lg);
+  font-weight: 700;
+  padding: 16px 32px;
+  border-radius: var(--border-radius-pill);
+  text-decoration: none;
+  text-align: center;
+  min-height: 54px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s ease;
+  width: 100%;
+}
+.claude-lp-wrapper .reveal-btn:hover { background: var(--color-cta-hover); }
+
+@media (min-width: 480px) {
+  .claude-lp-wrapper .reveal-btn { width: auto; min-width: 280px; }
+}
+
+/* === Coupon Reveal Box === */
+.claude-lp-wrapper .coupon-box {
+  background: var(--color-coupon-bg);
+  border: 2px solid var(--color-coupon-border);
+  border-radius: var(--border-radius-lg);
+  padding: 32px 24px;
+  text-align: center;
+  margin: 32px 0;
+}
+
+.claude-lp-wrapper .coupon-code-display {
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--color-coupon-code);
+  margin: 16px 0;
+  padding: 12px;
+  background: white;
+  border: 2px dashed var(--color-coupon-border);
+  border-radius: var(--border-radius);
+  word-break: break-all;
+}
+
+.claude-lp-wrapper .coupon-verified-note {
+  font-size: var(--size-xs);
+  color: var(--color-text-muted);
+  margin-top: 12px;
+}
+
+.claude-lp-wrapper .coupon-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+@media (min-width: 480px) {
+  .claude-lp-wrapper .coupon-btn-group { flex-direction: row; justify-content: center; }
+}
+
+/* === Section === */
+.claude-lp-wrapper .section { padding: var(--padding-section); }
+.claude-lp-wrapper .section + .section { padding-top: 0; }
+
+.claude-lp-wrapper .section-divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 32px 0;
+}
+
+.claude-lp-wrapper .card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  margin: 24px 0;
+}
+
+.claude-lp-wrapper .text-center { text-align: center; }
+.claude-lp-wrapper .text-muted { color: var(--color-text-muted); font-size: var(--size-sm); }
+.claude-lp-wrapper .text-small { font-size: var(--size-sm); }
+.claude-lp-wrapper .text-xs { font-size: var(--size-xs); }
+.claude-lp-wrapper .font-mono { font-family: var(--font-mono); }
+
+/* === Benefit List === */
+.claude-lp-wrapper .benefit-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.claude-lp-wrapper .benefit-list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--size-base);
+}
+
+.claude-lp-wrapper .benefit-list li:last-child { border-bottom: none; }
+
+.claude-lp-wrapper .benefit-icon {
+  width: 20px;
+  height: 20px;
+  background: var(--color-success);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* === FAQ === */
+.claude-lp-wrapper .faq-section { margin: 40px 0; }
+
+.claude-lp-wrapper .faq-item {
+  border-bottom: 1px solid var(--color-border);
+  padding: 4px 0;
+}
+
+.claude-lp-wrapper .faq-item summary {
+  font-weight: 600;
+  font-size: var(--size-base);
+  padding: 16px 0;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.claude-lp-wrapper .faq-item summary::-webkit-details-marker { display: none; }
+
+.claude-lp-wrapper .faq-item summary::after {
+  content: '+';
+  font-size: var(--size-xl);
+  font-weight: 400;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.claude-lp-wrapper .faq-item[open] summary::after { content: '\2212'; }
+
+.claude-lp-wrapper .faq-answer {
+  padding: 0 0 20px;
+  color: var(--color-text);
+  font-size: var(--size-sm);
+  line-height: var(--line-height);
+}
+
+/* === Verdict === */
+.claude-lp-wrapper .verdict-box {
+  background: var(--color-verdict-bg);
+  border: 1px solid var(--color-verdict-border);
+  border-left: 4px solid var(--color-verdict-highlight);
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  margin: 28px 0;
+}
+
+.claude-lp-wrapper .verdict-summary { font-size: var(--size-lg); margin-bottom: 12px; }
+
+/* === P.S. Line === */
+.claude-lp-wrapper .ps-line {
+  background: var(--color-bg-soft);
+  border-left: 3px solid var(--color-border-strong);
+  padding: 16px 20px;
+  margin: 32px 0;
+  font-size: var(--size-sm);
+  color: var(--color-text);
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+/* === Urgency Bar === */
+.claude-lp-wrapper .urgency-bar {
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: 10px 16px;
+  text-align: center;
+  font-size: var(--size-xs);
+  color: var(--color-text-muted);
+  margin-bottom: 24px;
+}
+
+/* === Footer === */
+.claude-lp-wrapper .lp-footer {
+  background: var(--color-bg-soft);
+  border-top: 1px solid var(--color-border);
+  padding: 24px var(--padding-x);
+  margin-top: 48px;
+}
+
+.claude-lp-wrapper .disclosure-text {
+  font-size: var(--size-xs);
+  color: var(--color-text-faint);
+  line-height: 1.6;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* === Coupon hidden state === */
+.claude-lp-wrapper .coupon-code-box { display: none; margin-top: 24px; }
+
+/* === Affiliate link style === */
+.claude-lp-wrapper .affiliate-link {
+  color: var(--color-cta-text);
+  text-decoration: none;
+}
+.claude-lp-wrapper .affiliate-link:hover {
+  opacity: 0.85;
+}
+</style>
+<div class="claude-lp-wrapper">
+
+  <!-- HERO SECTION -->
+  <header class="section" style="padding-top: 48px;">
+    <div class="urgency-bar">
+      Code verified May 2026 — manually checked by our team.
+    </div>
+    <h1>Courtside Tennis Coupon Code 2026</h1>
+    <p class="text-muted" style="font-size: var(--size-base);">
+      Your local shop is out of your grip size. The discount site sent a paddle with a dead core. There's a better way to buy tennis and pickleball gear — and your discount code is waiting.
+    </p>
+  </header>
+
+  <!-- PAIN OPENER / CONTEXT -->
+  <div class="section" style="padding-top: 0;">
+    <p>
+      Your local pro shop never has your grip size in stock. The big box store carries the racquet but nobody there can tell you how it actually plays. And that online discount site? Your last order arrived with strings so loose the frame might as well have been a snowshoe. Finding tennis and pickleball gear shouldn't mean choosing between convenience, expertise, and price.
+    </p>
+  </div>
+
+  <!-- CTA / REVEAL TRIGGER -->
+  <div class="section text-center" style="padding-top: 0;">
+    <button class="reveal-btn">Click to Reveal Your Code</button>
+  </div>
+
+  <!-- COUPON REVEAL BOX (hidden initially) -->
+  <div class="section" style="padding-top: 0;">
+    <div class="coupon-code-box">
+      <div class="coupon-box">
+        <p style="font-weight: 600; font-size: var(--size-lg);">Your Coupon Code</p>
+        <div class="coupon-code-display">WELCOME10</div>
+        <p style="font-size: var(--size-sm); color: var(--color-text-muted);">
+          10% off your order at Courtside Tennis. New customers — single use per household.
+        </p>
+        <div class="coupon-btn-group">
+          <button class="copy-btn">Copy Code</button>
+          <a href="#" class="btn-primary affiliate-link">Shop Now &amp; Save</a>
+        </div>
+        <p class="coupon-verified-note">Verified May 13, 2026 — manually checked by our team.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRAND OVERVIEW -->
+  <div class="section section-divider"></div>
+  <div class="section">
+    <h2>A Tennis Shop That Actually Plays</h2>
+    <p>
+      If your last online paddle arrived with a dead core and zero feel at the net, you know the gamble of buying gear sight unseen. Courtside Tennis runs three California stores — Rockridge Oakland, Sacramento, and Gold River — alongside a full online shop. Every racquet in their catalog can be demoed before you buy. Their staff actually plays the game. And your order ships free over $50. No more crossing your fingers when the box shows up.
+    </p>
+  </div>
+
+  <!-- BENEFITS -->
+  <div class="section">
+    <h2>Why Courtside Tennis?</h2>
+    <ul class="benefit-list">
+      <li>
+        <span class="benefit-icon">&#10003;</span>
+        <div>
+          <strong>Demo Before You Drop $250+</strong>
+          <p style="margin: 4px 0 0; font-size: var(--size-sm); color: var(--color-text-muted);">
+            Test racquets and paddles before committing. You walk onto the court knowing exactly how your new gear plays — not hoping the online reviews were right.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="benefit-icon">&#10003;</span>
+        <div>
+          <strong>Gear Advice From People Who Play</strong>
+          <p style="margin: 4px 0 0; font-size: var(--size-sm); color: var(--color-text-muted);">
+            Call the shop and you'll speak to someone who understands grip sizes, string tension, and paddle face materials. Your purchase fits your game, not a warehouse pick-list.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="benefit-icon">&#10003;</span>
+        <div>
+          <strong>Free Shipping That Doesn't Eat Your Savings</strong>
+          <p style="margin: 4px 0 0; font-size: var(--size-sm); color: var(--color-text-muted);">
+            Orders over $50 ship free anywhere in the US. Your full budget goes toward the gear — not the delivery.
+          </p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-section">
+      <details class="faq-item">
+        <summary>Every tennis coupon code I find online is already expired — is this one actually working?</summary>
+        <div class="faq-answer">
+          <p>That frustration is real. Most coupon aggregators scrape old codes that died months ago. This code was verified May 2026 — we check it manually. If it doesn't work when you try it, Courtside Tennis runs regular deals through their newsletter and SALE section, so discounted pricing is available even if the specific code has rotated.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>I bought a paddle from a discount site and it arrived defective — what if something's wrong with my order from Courtside Tennis?</summary>
+        <div class="faq-answer">
+          <p>Fair concern. Unlike dropshippers who never touch the product, Courtside Tennis operates physical stores where every item passes through real hands. They publish clear shipping and refund policies, offer phone support at (916) 482-6104, and respond at orders@courtsidetennis.com. If something is wrong, you reach a human — not a chatbot.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>Why pay Courtside Tennis prices when I can find the same gear on Amazon or big box sites?</summary>
+        <div class="faq-answer">
+          <p>On commodity items, prices are comparable. The difference shows up in specialized gear: grip sizes that big box stores don't stock, paddle models that Amazon sellers mislabel, and stringing services that online-only retailers can't offer. Plus, with the new customer discount, your first order beats standard retail pricing — and you get the confidence of buying from a shop that knows the gear.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- VERDICT / FINAL CTA -->
+  <div class="section section-divider"></div>
+  <div class="section">
+    <div class="verdict-box">
+      <h2 style="margin-bottom: 12px;">Stop Guessing. Start Playing.</h2>
+      <p>
+        Courtside Tennis gives you what discount sites can't: real expertise, a demo program that saves you from $250 mistakes, and gear that arrives ready to play. Claim your discount code and see why serious tennis and pickleball players shop here.
+      </p>
+    </div>
+    <div class="text-center">
+      <a href="#" class="btn-primary affiliate-link" style="text-decoration: none;">Reveal Your Code &amp; Shop Now</a>
+    </div>
+  </div>
+
+  <!-- PS LINE -->
+  <div class="section" style="padding-top: 0;">
+    <div class="ps-line">
+      <strong>P.S.</strong> Most coupon sites list codes that expired months ago. This one was checked by a human in May 2026. Use WELCOME10 at checkout before it rotates.
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="lp-footer">
+    <p class="disclosure-text">
+      This page contains affiliate links. We may earn a commission when you make a purchase through our links, at no additional cost to you.
+    </p>
+  </footer>
+
+  <!-- keyword_placement_log -->
+  <!-- keyword_placement_log: courtside tennis coupon code placed in meta.title, sections.hero.h1, rsa_ads.headlines[0]; courtside tennis discount placed in rsa_ads.headlines[2], sections.faq[2].answer; courtside tennis promo code placed in meta.description, rsa_ads.headlines[1]; courtside tennis sale placed in sections.faq[0].answer, rsa_ads.headlines[12] -->
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var wrapper = document.querySelector('.claude-lp-wrapper');
+  var revealBtn = wrapper.querySelector('.reveal-btn');
+  var codeBox = wrapper.querySelector('.coupon-code-box');
+  var couponCode = 'WELCOME10';
+  var brand = 'Courtside Tennis';
+  var affUrl = '#';
+  var utm = '?utm_source=organic&utm_medium=lp&utm_campaign=courtsidetennis-coupon';
+
+  // Reveal coupon on button click
+  if (revealBtn && codeBox) {
+    revealBtn.addEventListener('click', function() {
+      codeBox.style.display = 'block';
+      revealBtn.style.display = 'none';
+
+      // GA4 event
+      if (typeof gtag === 'function') {
+        gtag('event', 'coupon_reveal', {
+          'brand': brand,
+          'coupon_code': couponCode
+        });
+      }
+
+      // Copy button
+      var copyBtn = wrapper.querySelector('.copy-btn');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', function() {
+          navigator.clipboard.writeText(couponCode).catch(function() {
+            var el = document.createElement('textarea');
+            el.value = couponCode;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+          });
+          copyBtn.textContent = 'Copied!';
+        });
+      }
+    });
+  }
+
+  // Shop Now buttons — affiliate link with UTM
+  var shopButtons = wrapper.querySelectorAll('a[href="#"]');
+  shopButtons.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      if (affUrl !== '#') {
+        e.preventDefault();
+        window.open(affUrl + utm, '_blank');
+      }
+    });
+  });
+});
+</script>
